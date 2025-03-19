@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="loading-screen">
+        <div class="loader"></div>
+    </div>
+
+    <header>
+        <div class="logo">
+            <span class="highlight">Port</span>folio
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="theme-toggle">
+            <i class="fas fa-moon"></i>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="animate-text">Hi, I'm <span class="highlight">Tomás Soares</span></h1>
+            <div class="typing-text">I'm a <span id="profession"></span></div>
+            <p class="hero-description">Welcome to my portfolio! I love turning ideas into real-world projects.</p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn primary-btn">View My Work</a>
+                <a href="#contact" class="btn secondary-btn">Contact Me</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="blob"></div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="section-header">
+            <h2 class="section-title">About Me</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="about-content">
+            <div class="about-image">
+                <div class="image-container">
+                    <img src="https://via.placeholder.com/300" alt="Profile Image">
+                </div>
+            </div>
+            <div class="about-text">
+                <h3>Who am I?</h3>
+                <p>I'm a passionate developer dedicated to creating beautiful, functional websites and applications. With a strong background in modern web technologies, I love bringing ideas to life through code.</p>
+                <h3>My Skills</h3>
+                <div class="skills-container">
+                    <div class="skills-carousel">
+                        <div class="skills-track">
+                            <!-- Programming Languages -->
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fab fa-html5"></i>
+                                </div>
+                                <p>HTML</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fab fa-css3-alt"></i>
+                                </div>
+                                <p>CSS</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fab fa-react"></i>
+                                </div>
+                                <p>React</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <p>SQL</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fab fa-git-alt"></i>
+                                </div>
+                                <p>Git</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fab fa-jira"></i>
+                                </div>
+                                <p>Jira</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fab fa-python"></i>
+                                </div>
+                                <p>Python</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fab fa-js"></i>
+                                </div>
+                                <p>JavaScript</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fab fa-java"></i>
+                                </div>
+                                <p>Java</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <span class="custom-icon">C</span>
+                                </div>
+                                <p>C</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fab fa-vuejs"></i>
+                                </div>
+                                <p>Vue</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fab fa-laravel"></i>
+                                </div>
+                                <p>Laravel</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <span class="custom-icon">C++</span>
+                                </div>
+                                <p>C++</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fab fa-microsoft"></i>
+                                </div>
+                                <p>C#</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <span class="custom-icon">R</span>
+                                </div>
+                                <p>R</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fas fa-terminal"></i>
+                                </div>
+                                <p>Batch</p>
+                            </div>
+                            
+                            <!-- Duplicate for infinite scroll effect -->
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fab fa-html5"></i>
+                                </div>
+                                <p>HTML</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fab fa-css3-alt"></i>
+                                </div>
+                                <p>CSS</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fab fa-react"></i>
+                                </div>
+                                <p>React</p>
+                            </div>
+                            <div class="skill-item">
+                                <div class="skill-logo">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <p>SQL</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects-section">
+        <div class="section-header">
+            <h2 class="section-title">My GitHub Projects</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="github-header">
+            <div class="github-profile">
+                <i class="fab fa-github"></i>
+                <span>TomasSoares</span>
+            </div>
+        </div>
+        <div class="projects-grid" id="repoContainer">
+            <!-- GitHub repositories will be loaded here -->
+            <div class="repo-loading">
+                <div class="dot-pulse"></div>
+                <p class="loading-text">Loading projects...</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="section-header">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="underline"></div>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h3>Location</h3>
+                        <p>Leiria, Portugal</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h3>Email</h3>
+                        <p>soarestomas2003@gmail.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <h3>Phone</h3>
+                        <p>+351 961 165 689</p>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="Your Name" required>
+                        <div class="input-animation"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder="Your Email" required>
+                        <div class="input-animation"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="subject" placeholder="Subject" required>
+                        <div class="input-animation"></div>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" placeholder="Your Message" required></textarea>
+                        <div class="input-animation"></div>
+                    </div>
+                    <button type="submit" class="btn primary-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Your Portfolio. All rights reserved.</p>
+            <p>Designed with <i class="fas fa-heart"></i> by You</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
