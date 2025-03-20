@@ -9,6 +9,7 @@
     --border-radius: 12px;
     --transition: all 0.3s ease;
     --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --primary-color-rgb: 255, 127, 80; /* RGB values for --primary-color #ff7f50 */
 }
 
 /* Dark Mode Colors */
@@ -21,6 +22,7 @@
     --text-light: #b2bec3;
     --card-bg: #16213e;
     --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --primary-color-rgb: 255, 140, 0; /* RGB values for dark mode --primary-color #ff8c00 */
 }
 
 * {
@@ -610,142 +612,357 @@ section {
     color: var(--text-light);
 }
 
-/* Updated Skills Carousel with Rectangular Items */
+/* Enhanced Skills Container */
 .skills-container {
     margin-top: 2rem;
     position: relative;
     width: 100%;
+    padding: 1.5rem;
+    background: linear-gradient(145deg, var(--card-bg), rgba(var(--primary-color-rgb), 0.05));
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(var(--primary-color-rgb), 0.1);
     overflow: hidden;
-    padding: 1rem 0;
 }
 
-.skills-carousel {
-    width: 100%;
-    overflow: hidden;
+/* Dark mode enhancements for skills container */
+.dark-mode .skills-container {
+    background: linear-gradient(145deg, rgba(22, 33, 62, 0.8), rgba(var(--primary-color-rgb), 0.1));
+    border: 1px solid rgba(var(--primary-color-rgb), 0.15);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.skills-container::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.1;
+    z-index: 0;
+}
+
+.skills-container::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: -50px;
+    width: 150px;
+    height: 150px;
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.1;
+    z-index: 0;
+}
+
+/* Enhanced glow effects for dark mode */
+.dark-mode .skills-container::before,
+.dark-mode .skills-container::after {
+    opacity: 0.2;
+    filter: blur(50px);
+}
+
+.dark-mode .skills-container::before {
+    width: 180px;
+    height: 180px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+}
+
+.dark-mode .skills-container::after {
+    width: 180px;
+    height: 180px;
+    background: linear-gradient(135deg, var(--secondary-color), var(--accent-color), var(--primary-color));
+}
+
+/* Add subtle pattern to dark mode skills container */
+.dark-mode .skills-container {
     position: relative;
-    padding: 0;
-    margin-bottom: 1rem;
 }
 
-.skills-track {
-    display: flex;
-    width: max-content;
-    animation: scrollSkills 30s linear infinite;
-    padding: 1rem 0;
+.dark-mode .skills-container::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: 
+        radial-gradient(rgba(var(--primary-color-rgb), 0.1) 2px, transparent 2px),
+        radial-gradient(rgba(var(--primary-color-rgb), 0.07) 2px, transparent 2px);
+    background-size: 30px 30px;
+    background-position: 0 0, 15px 15px;
+    opacity: 0.3;
+    z-index: -1;
 }
 
-@keyframes scrollSkills {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-100%);
-    }
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
 }
 
-.skills-track:hover {
-    animation-play-state: paused;
+/* Improve skill items in dark mode */
+.dark-mode .skill-item {
+    background-color: rgba(22, 33, 62, 0.7);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(var(--primary-color-rgb), 0.15);
+    backdrop-filter: blur(5px);
 }
 
-/* Redesigned rectangular skill items */
+.dark-mode .skill-item:hover {
+    background: linear-gradient(145deg, var(--primary-color), var(--secondary-color));
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    border-color: transparent;
+}
+
+.dark-mode .skill-item:hover .skill-logo,
+.dark-mode .skill-item:hover .skill-name {
+    color: white;
+}
+
+.dark-mode .skill-logo {
+    color: var(--primary-color);
+}
+
+.dark-mode .skill-logo::after {
+    background-color: rgba(var(--primary-color-rgb), 0.15);
+}
+
+.dark-mode .skill-name {
+    color: var(--text-color);
+}
+
+.dark-mode .skill-item:hover .skill-name {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* Redesigned skill items with horizontal layout */
 .skill-item {
-    min-width: 140px;
-    max-width: 140px;
-    margin: 0 10px;
-    transition: all 0.3s ease;
-    opacity: 0.85;
+    height: auto;
+    min-height: 65px; /* Ensure minimum height for all skill items */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
-    justify-content: space-between; /* Align logo and name on opposite sides */
     align-items: center;
     background-color: var(--card-bg);
-    border-radius: 12px;
-    padding: 8px 12px;
-    box-shadow: var(--box-shadow);
-    height: 50px;
-    overflow: visible; /* Ensure content is not cut off */
+    border-radius: 16px;
+    padding: 1rem 1.2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transform: translateY(20px);
+    opacity: 0;
+    animation: skillAppear 0.6s forwards;
+    /* Make item size adapt to content instead of fixed width */
+    width: auto;
+    min-width: 140px;
+}
+
+.skill-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    transform: scale(0.8);
 }
 
 .skill-item:hover {
-    opacity: 1;
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
-    background-color: var(--primary-color);
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+    border-color: transparent;
 }
 
-.skill-item:hover .skill-logo {
-    color: white;
-}
-
-.skill-item:hover p {
-    color: white;
+.skill-item:hover::before {
+    opacity: 0.07;
+    transform: scale(1);
 }
 
 .skill-logo {
-    width: 30px;
-    height: 30px;
+    width: 45px;
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--primary-color);
-    font-size: 1.5rem;
-    transition: all 0.3s ease;
+    font-size: 1.8rem;
+    transition: all 0.4s ease;
+    margin-right: 1rem;
+    position: relative;
     flex-shrink: 0;
 }
 
-.skill-item p {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-color);
-    margin: 0;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-left: 10px; /* Add space between logo and text */
+.skill-logo::after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(var(--primary-color-rgb), 0.1);
+    border-radius: 50%;
+    z-index: -1;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform: scale(0.8);
+    opacity: 0.5;
 }
 
-/* Responsive adjustments for skills */
+.skill-item:hover .skill-logo {
+    transform: scale(1.1);
+    color: var(--primary-color);
+}
+
+.skill-item:hover .skill-logo::after {
+    transform: scale(1.2);
+    opacity: 0.8;
+}
+
+.skill-name {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    /* Fix overflow issues with long text */
+    white-space: normal;
+    word-break: break-word;
+    hyphens: auto;
+    line-height: 1.2;
+    /* If text is super long, constrain it */
+    max-width: 120px;
+    display: block;
+}
+
+/* JavaScript-specific styling to fix overflow */
+.skill-item:nth-child(8) {
+    min-width: 150px; /* Wider container for JavaScript */
+    padding-right: 1.5rem; /* More padding on the right */
+}
+
+.skill-item:nth-child(8) .skill-name {
+    font-size: 0.8rem; /* Smaller font for JavaScript */
+    letter-spacing: -0.5px; /* Tighter letter spacing */
+    max-width: 90px; /* Allow more room for text */
+}
+
+.skill-item:hover .skill-name {
+    transform: translateX(3px);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.custom-icon {
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+}
+
+/* Special handling for JavaScript and other long skill names */
+.skill-item:nth-child(8) .skill-name,
+.skill-item:has(.skill-name:contains("JavaScript")) {
+    font-size: 0.9rem;
+}
+
+/* Staggered animations for skill items */
+.skill-item:nth-child(1) { animation-delay: 0.1s; }
+.skill-item:nth-child(2) { animation-delay: 0.15s; }
+.skill-item:nth-child(3) { animation-delay: 0.2s; }
+.skill-item:nth-child(4) { animation-delay: 0.25s; }
+.skill-item:nth-child(5) { animation-delay: 0.3s; }
+.skill-item:nth-child(6) { animation-delay: 0.35s; }
+.skill-item:nth-child(7) { animation-delay: 0.4s; }
+.skill-item:nth-child(8) { animation-delay: 0.45s; }
+.skill-item:nth-child(9) { animation-delay: 0.5s; }
+.skill-item:nth-child(10) { animation-delay: 0.55s; }
+.skill-item:nth-child(11) { animation-delay: 0.6s; }
+.skill-item:nth-child(12) { animation-delay: 0.65s; }
+.skill-item:nth-child(13) { animation-delay: 0.7s; }
+.skill-item:nth-child(14) { animation-delay: 0.75s; }
+.skill-item:nth-child(15) { animation-delay: 0.8s; }
+.skill-item:nth-child(16) { animation-delay: 0.85s; }
+
+@keyframes skillAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments for skills items */
 @media (max-width: 768px) {
+    .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 1rem;
+    }
+    
     .skill-item {
-        min-width: 120px;
-        max-width: 120px;
-        margin: 0 8px;
-        height: 45px;
+        padding: 0.8rem 1rem;
     }
     
     .skill-logo {
-        width: 25px;
-        height: 25px;
-        font-size: 1.2rem;
+        width: 35px;
+        height: 35px;
+        font-size: 1.5rem;
+        margin-right: 0.8rem;
     }
     
-    .skill-item p {
-        font-size: 0.8rem;
+    .skill-name {
+        font-size: 0.9rem;
+    }
+
+    /* Ensure JavaScript fits on mobile */
+    .skill-item:nth-child(8) {
+        min-width: 130px;
+    }
+}
+
+@media (max-width: 576px) {
+    .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 0.8rem;
+    }
+    
+    .skill-item {
+        padding: 0.6rem 0.8rem;
+    }
+    
+    .skill-logo {
+        width: 30px;
+        height: 30px;
+        font-size: 1.3rem;
+        margin-right: 0.6rem;
+    }
+    
+    .skill-name {
+        font-size: 0.85rem;
+        max-width: 100px;
     }
     
     .custom-icon {
         font-size: 1.2rem;
     }
-}
-
-@media (max-width: 576px) {
-    .skill-item {
-        min-width: 110px;
-        max-width: 110px;
-        margin: 0 6px;
-        height: 40px;
-        padding: 6px 10px;
+    
+    /* Make JavaScript text smaller on small screens */
+    .skill-item:nth-child(8) {
+        min-width: 120px;
+        padding: 0.6rem 1rem;
     }
     
-    .skill-logo {
-        width: 20px;
-        height: 20px;
-        font-size: 1.1rem;
-        margin-right: 8px;
-    }
-    
-    .skill-item p {
+    .skill-item:nth-child(8) .skill-name {
         font-size: 0.75rem;
+        max-width: 80px;
     }
 }
 
@@ -1767,7 +1984,7 @@ footer i {
 .location-details h4 {
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
-    color: var(--text-color);
+    color: var (--text-color);
 }
 
 .location-details p {
