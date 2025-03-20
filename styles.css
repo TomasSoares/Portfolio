@@ -610,63 +610,72 @@ section {
     color: var(--text-light);
 }
 
-/* Updated Skills Container */
+/* Updated Skills Carousel with Rectangular Items */
 .skills-container {
     margin-top: 2rem;
     position: relative;
     width: 100%;
-    overflow: hidden; /* Ensure no overflow */
+    overflow: hidden;
+    padding: 1rem 0;
 }
 
 .skills-carousel {
     width: 100%;
     overflow: hidden;
     position: relative;
-    padding: 1rem 0;
+    padding: 0;
     margin-bottom: 1rem;
 }
 
 .skills-track {
     display: flex;
-    transition: transform 0.5s ease;
+    width: max-content;
+    transition: transform 0.5s ease-out;
 }
 
+/* Redesigned rectangular skill items */
 .skill-item {
-    min-width: 100px;
-    max-width: 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0 15px;
-    opacity: 0.7;
+    min-width: 140px;
+    max-width: 140px;
+    margin: 0 10px;
     transition: all 0.3s ease;
-}
-
-.skill-item.active {
-    opacity: 1;
-    transform: scale(1.1);
-}
-
-.skill-logo {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
+    opacity: 0.85;
+    display: flex;
+    justify-content: space-between; /* Align logo and name on opposite sides */
+    align-items: center;
     background-color: var(--card-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 0.8rem;
+    border-radius: 12px;
+    padding: 8px 12px;
     box-shadow: var(--box-shadow);
-    color: var(--primary-color);
-    font-size: 2rem;
-    transition: all 0.3s ease;
+    height: 50px;
+    overflow: visible; /* Ensure content is not cut off */
+}
+
+.skill-item:hover {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+    background-color: var(--primary-color);
 }
 
 .skill-item:hover .skill-logo {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
     color: white;
-    background-color: var(--primary-color);
+}
+
+.skill-item:hover p {
+    color: white;
+}
+
+.skill-logo {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
 }
 
 .skill-item p {
@@ -674,68 +683,56 @@ section {
     font-weight: 500;
     color: var(--text-color);
     margin: 0;
-}
-
-.skills-controls {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.skill-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--card-bg);
-    color: var(--primary-color);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--box-shadow);
     transition: all 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 10px; /* Add space between logo and text */
 }
 
-.skill-btn:hover {
-    background-color: var(--primary-color);
-    color: white;
-    transform: translateY(-3px);
+/* Responsive adjustments for skills */
+@media (max-width: 768px) {
+    .skill-item {
+        min-width: 120px;
+        max-width: 120px;
+        margin: 0 8px;
+        height: 45px;
+    }
+    
+    .skill-logo {
+        width: 25px;
+        height: 25px;
+        font-size: 1.2rem;
+    }
+    
+    .skill-item p {
+        font-size: 0.8rem;
+    }
+    
+    .custom-icon {
+        font-size: 1.2rem;
+    }
 }
 
-.skill-btn:active {
-    transform: translateY(-1px);
-}
-
-.skill-btn i {
-    font-size: 1rem;
-}
-
-.custom-icon {
-    font-weight: 700;
-    font-size: 1.8rem;
-    font-family: 'Courier New', monospace;
-}
-
-/* Remove old skill bars style */
-.skill-bar, .skill-level, .skill-name {
-    display: none;
-}
-
-/* Animation for skills carousel */
-@keyframes slideSkills {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-115px * 16)); }  /* Adjust based on your items */
-}
-
-/* Auto-scrolling animation when not interacting */
-.skills-track.auto-scroll {
-    animation: slideSkills 30s linear infinite;
-}
-
-.skills-track.auto-scroll:hover {
-    animation-play-state: paused;
+@media (max-width: 576px) {
+    .skill-item {
+        min-width: 110px;
+        max-width: 110px;
+        margin: 0 6px;
+        height: 40px;
+        padding: 6px 10px;
+    }
+    
+    .skill-logo {
+        width: 20px;
+        height: 20px;
+        font-size: 1.1rem;
+        margin-right: 8px;
+    }
+    
+    .skill-item p {
+        font-size: 0.75rem;
+    }
 }
 
 /* Projects Section */
@@ -1554,4 +1551,371 @@ footer i {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
+}
+
+/* Redesigned Contact Section */
+.connect-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.connect-message {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.connect-message h3 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.connect-message p {
+    color: var(--text-light);
+    line-height: 1.7;
+}
+
+.contact-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.contact-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.contact-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.4s ease;
+}
+
+.contact-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.contact-card:hover::before {
+    opacity: 0.05;
+}
+
+.card-icon {
+    width: 70px;
+    height: 70px;
+    background-color: var(--background-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(255, 127, 80, 0.15);
+}
+
+.contact-card:hover .card-icon {
+    transform: scale(1.1);
+    color: white;
+    background-color: var(--primary-color);
+    box-shadow: 0 10px 25px rgba(255, 127, 80, 0.3);
+}
+
+.contact-card h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    color: var(--text-color);
+}
+
+.contact-card p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    min-height: 40px;
+}
+
+.contact-link {
+    display: inline-block;
+    color: var(--primary-color);
+    font-weight: 500;
+    position: relative;
+    transition: all 0.3s ease;
+    padding-bottom: 5px;
+    text-decoration: none;
+}
+
+.contact-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.contact-link:hover {
+    color: var(--secondary-color);
+}
+
+.contact-link:hover::after {
+    width: 100%;
+    background-color: var(--secondary-color);
+}
+
+.location-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: var(--box-shadow);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.location-info::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.4s ease;
+}
+
+.location-info:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.location-info:hover::before {
+    opacity: 0.05;
+}
+
+.location-info:hover .location-map {
+    transform: scale(1.1);
+    color: var(--secondary-color);
+}
+
+.location-info:hover .availability-dot {
+    animation: blinkFaster 0.8s infinite;
+}
+
+.location-map {
+    font-size: 3rem;
+    color: var(--primary-color);
+    animation: pulse 2s infinite ease-in-out;
+    transition: all 0.3s ease;
+}
+
+@keyframes blinkFaster {
+    0% { opacity: 0.4; }
+    50% { opacity: 1; }
+    100% { opacity: 0.4; }
+}
+
+/* Make the location details move slightly on hover for depth effect */
+.location-details {
+    transition: transform 0.3s ease;
+}
+
+.location-info:hover .location-details {
+    transform: translateY(-3px);
+}
+
+.location-details h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.location-details p {
+    color: var(--text-light);
+}
+
+.availability {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.availability-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #2ecc71;
+    border-radius: 50%;
+    display: inline-block;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 0.4; }
+    50% { opacity: 1; }
+    100% { opacity: 0.4; }
+}
+
+/* Responsive styles for contact section */
+@media (max-width: 768px) {
+    .contact-cards {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    .location-info {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem 1rem;
+    }
+    
+    .location-map {
+        margin-bottom: 1rem;
+    }
+    
+    .contact-card p {
+        min-height: auto;
+    }
+}
+
+/* Fixed Skills Carousel Styling */
+.skills-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 1rem 0;
+}
+
+.skills-carousel {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.skills-track {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    width: max-content;
+    transition: transform 0.5s ease-out;
+}
+
+/* Redesigned rectangular skill items */
+.skill-item {
+    min-width: 140px;
+    max-width: 140px;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+    opacity: 0.85;
+    display: flex;
+    justify-content: space-between; /* Align logo and name on opposite sides */
+    align-items: center;
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    padding: 8px 12px;
+    box-shadow: var(--box-shadow);
+    height: 50px;
+    overflow: visible; /* Ensure content is not cut off */
+}
+
+.skill-item:hover {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+    background-color: var(--primary-color);
+}
+
+.skill-item:hover .skill-logo {
+    color: white;
+}
+
+.skill-item:hover p {
+    color: white;
+}
+
+.skill-logo {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.skill-item p {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin: 0;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 10px; /* Add space between logo and text */
+}
+
+/* Ensure the hover state remains functional */
+.skills-track:hover {
+    animation-play-state: paused !important;
+}
+
+/* Hard-coded animation for skills carousel */
+@keyframes slideSkills {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-1600px); } /* Using a fixed value that should be wide enough */
+}
+
+.skills-track {
+    display: flex;
+    width: max-content; /* Allow it to be as wide as needed */
+}
+
+/* Reset any conflicting styles */
+.skills-track {
+    animation: none; /* Reset animation - will be applied via JS */
+    transition: none; /* Remove any transitions that might interfere */
+}
+
+/* Remove any auto-scroll classes that might conflict */
+.skills-track.auto-scroll {
+    animation: none;
+}
+
+/* Ensure hover pauses animation */
+.skills-track:hover {
+    animation-play-state: paused !important;
 }

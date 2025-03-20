@@ -584,222 +584,159 @@ inputStyle.textContent = `
 `;
 document.head.appendChild(inputStyle);
 
-// Skills carousel functionality
+// Completely new implementation of Skills carousel functionality
 document.addEventListener('DOMContentLoaded', () => {
-    const skillsTrack = document.querySelector('.skills-track');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    const skillItems = document.querySelectorAll('.skill-item');
-    
-    let position = 0;
-    const itemWidth = 130; // Width of each item including margin
-    const visibleItems = Math.floor(skillsTrack.parentElement.offsetWidth / itemWidth);
-    
-    // Initialize auto-scrolling
-    skillsTrack.classList.add('auto-scroll');
-    
-    // Stop auto-scrolling when controls are used
-    const stopAutoScroll = () => {
-        skillsTrack.classList.remove('auto-scroll');
-    };
-    
-    // Move to next slide
-    const moveNext = () => {
-        stopAutoScroll();
-        if (position > -(skillItems.length - visibleItems) * itemWidth) {
-            position -= itemWidth;
-            skillsTrack.style.transform = `translateX(${position}px)`;
-        } else {
-            // If at the end, quickly reset to start for infinite effect
-            position = 0;
-            skillsTrack.style.transition = 'none';
-            skillsTrack.style.transform = `translateX(${position}px)`;
-            setTimeout(() => {
-                skillsTrack.style.transition = 'transform 0.5s ease';
-            }, 50);
-        }
-        updateActiveItems();
-    };
-    
-    // Move to previous slide
-    const movePrev = () => {
-        stopAutoScroll();
-        if (position < 0) {
-            position += itemWidth;
-            skillsTrack.style.transform = `translateX(${position}px)`;
-        } else {
-            // If at the start, quickly jump to end for infinite effect
-            position = -(skillItems.length - visibleItems) * itemWidth;
-            skillsTrack.style.transition = 'none';
-            skillsTrack.style.transform = `translateX(${position}px)`;
-            setTimeout(() => {
-                skillsTrack.style.transition = 'transform 0.5s ease';
-            }, 50);
-        }
-        updateActiveItems();
-    };
-    
-    // Update which items are active based on position
-    const updateActiveItems = () => {
-        const activeIndex = Math.abs(Math.round(position / itemWidth));
-        
-        skillItems.forEach((item, index) => {
-            item.classList.remove('active');
-            if (index >= activeIndex && index < activeIndex + visibleItems) {
-                item.classList.add('active');
-            }
-        });
-    };
-    
-    // Event listeners for buttons
-    nextBtn.addEventListener('click', moveNext);
-    prevBtn.addEventListener('click', movePrev);
-    
-    // Touch/swipe support
-    let startX = 0;
-    let isDragging = false;
-    
-    skillsTrack.addEventListener('touchstart', (e) => {
-        stopAutoScroll();
-        startX = e.touches[0].clientX;
-        isDragging = true;
+    // Wait for all resources to load
+    window.addEventListener('load', () => {
+        initSkillsCarousel();
     });
     
-    skillsTrack.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        const currentX = e.touches[0].clientX;
-        const diff = startX - currentX;
-        skillsTrack.style.transform = `translateX(${position - diff}px)`;
-    });
-    
-    skillsTrack.addEventListener('touchend', (e) => {
-        isDragging = false;
-        const currentX = e.changedTouches[0].clientX;
-        const diff = startX - currentX;
-        
-        if (Math.abs(diff) > 50) { // Minimum drag distance
-            if (diff > 0) {
-                moveNext();
-            } else {
-                movePrev();
-            }
-        } else {
-            // Return to original position if not dragged enough
-            skillsTrack.style.transform = `translateX(${position}px)`;
-        }
-    });
-    
-    // Mouse drag support
-    skillsTrack.addEventListener('mousedown', (e) => {
-        stopAutoScroll();
-        e.preventDefault();
-        startX = e.clientX;
-        isDragging = true;
-        skillsTrack.style.cursor = 'grabbing';
-    });
-    
-    window.addEventListener('mousemove', (e) => {
-        if (!isDragging) return;
-        const currentX = e.clientX;
-        const diff = startX - currentX;
-        skillsTrack.style.transform = `translateX(${position - diff}px)`;
-    });
-    
-    window.addEventListener('mouseup', (e) => {
-        if (!isDragging) return;
-        
-        isDragging = false;
-        skillsTrack.style.cursor = 'grab';
-        const currentX = e.clientX;
-        const diff = startX - currentX;
-        
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) {
-                moveNext();
-            } else {
-                movePrev();
-            }
-        } else {
-            // Return to original position if not dragged enough
-            skillsTrack.style.transform = `translateX(${position}px)`;
-        }
-    });
-    
-    // Initialize active items
-    updateActiveItems();
-    
-    // Pause animation on hover
-    skillsTrack.addEventListener('mouseenter', () => {
-        if (skillsTrack.classList.contains('auto-scroll')) {
-            skillsTrack.style.animationPlayState = 'paused';
-        }
-    });
-    
-    skillsTrack.addEventListener('mouseleave', () => {
-        if (skillsTrack.classList.contains('auto-scroll')) {
-            skillsTrack.style.animationPlayState = 'running';
-        }
-    });
-    
-    // Reset carousel on window resize
-    window.addEventListener('resize', () => {
-        position = 0;
-        skillsTrack.style.transform = `translateX(${position}px)`;
-        updateActiveItems();
-    });
-    
-    // Update skills carousel sizing on window resize
-    const updateCarouselForScreenSize = () => {
+    function initSkillsCarousel() {
         const skillsTrack = document.querySelector('.skills-track');
-        const skillItems = document.querySelectorAll('.skill-item');
-        const container = document.querySelector('.skills-carousel');
-        
-        if (!skillsTrack || skillItems.length === 0 || !container) return;
-        
-        // Get actual container width
-        const containerWidth = container.offsetWidth;
-        
-        // Adjust item width based on screen size
-        let itemWidth = 130; // Default size
-        let marginSize = 15; // Default margin
-        
-        if (window.innerWidth <= 768) {
-            itemWidth = 90;
-            marginSize = 10;
+        if (!skillsTrack) {
+            console.error("Skills track element not found");
+            return;
         }
         
-        if (window.innerWidth <= 576) {
-            itemWidth = 80;
-            marginSize = 8;
+        console.log("Initializing skills carousel");
+        
+        // Clone items for smooth infinite loop
+        const originalItems = Array.from(skillsTrack.querySelectorAll('.skill-item'));
+        if (originalItems.length === 0) {
+            console.error("No skill items found");
+            return;
         }
         
-        if (window.innerWidth <= 360) {
-            itemWidth = 70;
-            marginSize = 5;
+        // Clear any existing clones first
+        const allItems = skillsTrack.querySelectorAll('.skill-item');
+        const originalItemsCount = originalItems.length;
+        
+        // Remove any previously cloned items (those beyond the original count)
+        for (let i = allItems.length - 1; i >= originalItemsCount; i--) {
+            if (allItems[i].parentNode === skillsTrack) {
+                skillsTrack.removeChild(allItems[i]);
+            }
         }
         
-        // Update item styling dynamically
-        skillItems.forEach(item => {
-            item.style.minWidth = `${itemWidth}px`;
-            item.style.maxWidth = `${itemWidth}px`;
-            item.style.margin = `0 ${marginSize}px`;
+        // Clone original items and append them
+        originalItems.forEach(item => {
+            const clone = item.cloneNode(true);
+            clone.setAttribute('data-cloned', 'true');
+            skillsTrack.appendChild(clone);
         });
         
-        // Calculate visible items based on actual container width
-        const totalItemWidth = itemWidth + (marginSize * 2);
-        const visibleItems = Math.floor(containerWidth / totalItemWidth);
+        // Add another set to ensure smooth looping
+        originalItems.forEach(item => {
+            const clone = item.cloneNode(true);
+            clone.setAttribute('data-cloned', 'true');
+            skillsTrack.appendChild(clone);
+        });
         
-        // Reset position
-        position = 0;
-        // const visibleItems = Math.floor(containerWidth / totalItemWidth);
+        // Set up manual animation with requestAnimationFrame
+        let scrollPosition = 0;
+        let scrollSpeed = 0.5; // pixels per frame
+        let isPaused = false;
+        let animationId = null;
         
-        // Update active items
-        updateActiveItems();
-    };
+        // Calculate when to reset position (halfway through the duplicated content)
+        const firstSetWidth = originalItems.reduce((total, item) => {
+            return total + item.offsetWidth + parseInt(getComputedStyle(item).marginLeft) + 
+                   parseInt(getComputedStyle(item).marginRight);
+        }, 0);
+        
+        function step() {
+            if (!isPaused) {
+                scrollPosition += scrollSpeed;
+                
+                // Reset position when we've scrolled past the first set
+                if (scrollPosition >= firstSetWidth) {
+                    scrollPosition = 0;
+                }
+                
+                skillsTrack.style.transform = `translateX(-${scrollPosition}px)`;
+            }
+            animationId = requestAnimationFrame(step);
+        }
+        
+        // Start animation
+        animationId = requestAnimationFrame(step);
+        
+        // Add pause/resume on hover
+        skillsTrack.addEventListener('mouseenter', () => {
+            isPaused = true;
+        });
+        
+        skillsTrack.addEventListener('mouseleave', () => {
+            isPaused = false;
+        });
+        
+        // Add pause/resume on touch for mobile
+        skillsTrack.addEventListener('touchstart', () => {
+            isPaused = true;
+        });
+        
+        skillsTrack.addEventListener('touchend', () => {
+            isPaused = false;
+        });
+        
+        // Clean up on page hide/unload
+        window.addEventListener('pagehide', () => {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+        });
+        
+        window.addEventListener('beforeunload', () => {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+        });
+        
+        // Handle visibility change (tab switching)
+        document.addEventListener('visibilitychange', () => {
+            isPaused = document.hidden;
+        });
+        
+        // Reset on window resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                // Recalculate firstSetWidth
+                const updatedFirstSetWidth = Array.from(skillsTrack.querySelectorAll('.skill-item'))
+                    .slice(0, originalItemsCount)
+                    .reduce((total, item) => {
+                        return total + item.offsetWidth + parseInt(getComputedStyle(item).marginLeft) + 
+                               parseInt(getComputedStyle(item).marginRight);
+                    }, 0);
+                
+                // Update the calculated width
+                firstSetWidth = updatedFirstSetWidth;
+                
+                // Reset position if needed
+                if (scrollPosition >= firstSetWidth) {
+                    scrollPosition = 0;
+                    skillsTrack.style.transform = `translateX(0)`;
+                }
+            }, 300);
+        });
+        
+        console.log("Skills carousel initialized successfully");
+    }
     
-    // Call on load and on resize
-    updateCarouselForScreenSize();
-    window.addEventListener('resize', updateCarouselForScreenSize);
+    // Re-initialize if About section becomes visible
+    const aboutSection = document.getElementById('about');
+    if (aboutSection) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    initSkillsCarousel();
+                }
+            });
+        }, {threshold: 0.1});
+        
+        observer.observe(aboutSection);
+    }
 });
 
 // Disable custom cursor on mobile devices
