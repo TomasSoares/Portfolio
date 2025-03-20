@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="cursor"></div>
+    <div class="scroll-progress-indicator">0%</div>
     <div class="loading-screen">
         <div class="loader"></div>
     </div>
@@ -42,7 +42,11 @@
             </div>
         </div>
         <div class="hero-image">
-            <div class="blob"></div>
+            <div class="blob">
+                <div class="emoji">
+                    <img src="assets/emoji.png" alt="iOS Technologist Emoji" class="emoji-img">
+                </div>
+            </div>
         </div>
     </section>
 
@@ -59,7 +63,8 @@
             </div>
             <div class="about-text">
                 <h3>Who am I?</h3>
-                <p>I'm a passionate developer dedicated to creating beautiful, functional websites and applications. With a strong background in modern web technologies, I love bringing ideas to life through code.</p>
+                <p>I'm a dedicated and passionate student of Computer Science, commited to continuosly learning and expanding my knowledge. With a solid foundation in this field,
+                    I am determined to create through the power of code. The potential to build transformative technologies fuels drive to keep evolving and pushing the boundaries of what is possible,</p>
                 <h3>My Skills</h3>
                 <div class="skills-container">
                     <div class="skills-carousel">
@@ -275,8 +280,8 @@
 
     <footer>
         <div class="footer-content">
-            <p>&copy; 2025 Your Portfolio. All rights reserved.</p>
-            <p>Designed with <i class="fas fa-heart"></i> by You</p>
+            <p>&copy; <span id="current-year"></span> All rights reserved.</p>
+            <p>Designed by Tomás Soares</p>
         </div>
     </footer>
 

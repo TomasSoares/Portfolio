@@ -1,40 +1,3 @@
-// Custom cursor functionality
-const cursor = document.querySelector('.cursor');
-
-document.addEventListener('mousemove', (e) => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-});
-
-document.addEventListener('mousedown', () => {
-    cursor.style.width = '15px';
-    cursor.style.height = '15px';
-});
-
-document.addEventListener('mouseup', () => {
-    cursor.style.width = '20px';
-    cursor.style.height = '20px';
-});
-
-// Add hover effects to all clickable elements
-const clickables = document.querySelectorAll('a, button, .theme-toggle, input, textarea');
-
-clickables.forEach(element => {
-    element.addEventListener('mouseenter', () => {
-        cursor.style.width = '40px';
-        cursor.style.height = '40px';
-        cursor.style.backgroundColor = 'rgba(255, 127, 80, 0.2)'; // Changed from rgba(108, 92, 231, 0.2)
-        cursor.style.border = 'none';
-    });
-
-    element.addEventListener('mouseleave', () => {
-        cursor.style.width = '20px';
-        cursor.style.height = '20px';
-        cursor.style.backgroundColor = 'transparent';
-        cursor.style.border = '2px solid var(--primary-color)';
-    });
-});
-
 // Loading screen animation
 window.addEventListener('load', () => {
     const loadingScreen = document.querySelector('.loading-screen');
@@ -46,8 +9,39 @@ window.addEventListener('load', () => {
     }, 1500);
 });
 
-// Typing animation
-const professionsArray = ["Computer Science Student", "Coder", "Passionate", "Innovator", "Enthusiast"];
+// Add scroll progress indicator functionality
+const updateScrollProgress = () => {
+    const scrollIndicator = document.querySelector('.scroll-progress-indicator');
+    
+    if (!scrollIndicator) return;
+    
+    const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrollPosition = window.scrollY;
+    
+    // Calculate scroll percentage
+    const scrollPercentage = Math.round((scrollPosition / windowHeight) * 100);
+    
+    // Update indicator text
+    scrollIndicator.textContent = `${scrollPercentage}%`;
+    
+    // Make indicator more visible when scrolling
+    scrollIndicator.style.opacity = '1';
+    
+    // Reset opacity after a delay
+    clearTimeout(window.scrollTimeout);
+    window.scrollTimeout = setTimeout(() => {
+        scrollIndicator.style.opacity = '0.8';
+    }, 1500);
+};
+
+// Track scroll position
+window.addEventListener('scroll', updateScrollProgress);
+
+// Initialize scroll indicator on page load
+document.addEventListener('DOMContentLoaded', updateScrollProgress);
+
+// Typing animation with proper grammar and special case for "Driven"
+const professionsArray = ["Computer Science Student", "Coder", "Driven", "Innovator", "Enthusiast", "Engineer", "Artist"];
 let currentProfessionIndex = 0;
 let currentCharIndex = 0;
 let isDeleting = false;
@@ -56,6 +50,26 @@ let typingDelay = 100;
 function typeText() {
     const professionElement = document.getElementById('profession');
     const currentProfession = professionsArray[currentProfessionIndex];
+    
+    // Special case for "Driven" which doesn't need an article
+    if (currentProfession === "Driven") {
+        // Update text to not include an article
+        const typingContainer = document.querySelector('.typing-text');
+        if (typingContainer) {
+            typingContainer.childNodes[0].nodeValue = "I'm ";
+        }
+    } else {
+        // Determine if we need "a" or "an" based on the first letter of the profession
+        const firstLetter = currentProfession.charAt(0).toLowerCase();
+        const vowels = ['a', 'e', 'i', 'o', 'u'];
+        const article = vowels.includes(firstLetter) ? 'an' : 'a';
+        
+        // Update the text before the profession element
+        const typingContainer = document.querySelector('.typing-text');
+        if (typingContainer) {
+            typingContainer.childNodes[0].nodeValue = `I'm ${article} `;
+        }
+    }
     
     if (isDeleting) {
         professionElement.textContent = currentProfession.substring(0, currentCharIndex - 1);
@@ -191,7 +205,7 @@ const showLoading = () => {
     repoContainer.innerHTML = '<div class="repo-loading"><div class="dot-pulse"></div><p class="loading-text">Loading projects...</p></div>';
 };
 
-// Function to fetch GitHub repositories
+// Function to fetch GitHub repositories with improved error handling
 const fetchGitHubRepos = async () => {
     // Hardcoded username
     const username = 'TomasSoares';
@@ -205,11 +219,17 @@ const fetchGitHubRepos = async () => {
         const repos = await response.json();
         
         console.log(`Response status: ${response.status}`);
-        console.log(`Repositories found: ${repos.length}`);
+        
+        // Handle rate limit exceeded error
+        if (response.status === 403 && repos.message && repos.message.includes('rate limit')) {
+            throw new Error('API rate limit exceeded. Please try again later.');
+        }
         
         if (response.status !== 200) {
             throw new Error(repos.message || 'Error fetching repositories');
         }
+        
+        console.log(`Repositories found: ${repos.length}`);
         
         // Clear container
         repoContainer.innerHTML = '';
@@ -300,11 +320,28 @@ const fetchGitHubRepos = async () => {
         });
     } catch (error) {
         console.error('Error fetching repositories:', error);
+        
+        // Create a more user-friendly error message for rate limiting
+        let errorMessage = error.message;
+        let helpText = 'Please refresh the page to try again.';
+        
+        if (error.message.includes('rate limit')) {
+            errorMessage = 'GitHub API rate limit exceeded';
+            helpText = `
+                <p>This happens when too many requests are made from one location.</p>
+                <p>You can:</p>
+                <ul style="text-align: left; max-width: 400px; margin: 10px auto;">
+                    <li>Wait a few minutes and try again</li>
+                    <li>View projects directly on <a href="https://github.com/${username}" target="_blank" style="color: var(--primary-color);">GitHub</a></li>
+                </ul>
+            `;
+        }
+        
         repoContainer.innerHTML = `
             <div class="error-message">
-                <i class="fas fa-exclamation-circle"></i>
-                <p>Error: ${error.message}</p>
-                <p class="error-details">Please refresh the page to try again.</p>
+                <i class="fas fa-exclamation-circle" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 15px;"></i>
+                <p style="font-size: 1.2rem; font-weight: 500; margin-bottom: 15px;">${errorMessage}</p>
+                <div class="error-details">${helpText}</div>
             </div>
         `;
     }
@@ -354,7 +391,6 @@ contactForm.addEventListener('submit', async (e) => {
 });
 
 // Parallax effect for blob in hero section
-const blob = document.querySelector('.blob');
 window.addEventListener('mousemove', (e) => {
     // Only apply parallax on devices that are likely not touch devices
     if (window.innerWidth > 768) {
@@ -362,7 +398,97 @@ window.addEventListener('mousemove', (e) => {
         const moveY = (e.clientY / window.innerHeight - 0.5) * 20;
         
         blob.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        
+        // Move emoji in slightly different direction for depth effect
+        if (emoji) {
+            emoji.style.transform = `translate(${moveX * -0.2}px, ${moveY * -0.2}px) rotate(${moveX * 0.5}deg)`;
+        }
     }
+});
+
+// Improved blob interaction - when mouse hovers on blob
+
+// Add hover effect for the emoji
+if (blob) {
+    blob.addEventListener('mouseenter', () => {
+        if (emoji) {
+            emoji.style.transform = 'scale(1.2) rotate(10deg)';
+            emoji.style.transition = 'transform 0.3s ease';
+        }
+    });
+    
+    blob.addEventListener('mouseleave', () => {
+        if (emoji) {
+            emoji.style.transform = '';
+            emoji.style.transition = 'transform 0.3s ease';
+        }
+    });
+}
+
+// Parallax effect for blob in hero section - modified without particles
+window.addEventListener('mousemove', (e) => {
+    // Only apply parallax on devices that are likely not touch devices
+    if (window.innerWidth > 768) {
+        const moveX = (e.clientX / window.innerWidth - 0.5) * 20;
+        const moveY = (e.clientY / window.innerHeight - 0.5) * 20;
+        
+        if (blob) {
+            blob.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        }
+        
+        // Move emoji in slightly different direction for depth effect
+        if (emoji) {
+            emoji.style.transform = `translate(${moveX * -0.2}px, ${moveY * -0.2}px) rotate(${moveX * 0.5}deg)`;
+        }
+    }
+});
+
+// Remove particle generation functions and events
+// Delete or comment out createParticles() function
+
+// Enhanced parallax effect for blob - simplified without particles
+window.addEventListener('mousemove', (e) => {
+    if (window.innerWidth <= 768) return;
+    
+    const moveX = (e.clientX / window.innerWidth - 0.5) * 40;
+    const moveY = (e.clientY / window.innerHeight - 0.5) * 40;
+    
+    // Move blob with more pronounced effect
+    if (blob) {
+        blob.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${moveX * 0.1}deg)`;
+    }
+    
+    // Move emoji in opposite direction for depth effect
+    if (emoji) {
+        emoji.style.transform = `translate(${moveX * -0.2}px, ${moveY * -0.2}px) rotate(${moveX * -0.3}deg)`;
+    }
+    
+    // Add subtle shadow change based on movement
+    if (blob) {
+        const shadowX = moveX * 0.5;
+        const shadowY = moveY * 0.5;
+        blob.style.boxShadow = `${shadowX}px ${shadowY}px 50px rgba(255, 127, 80, 0.3)`;
+    }
+});
+
+// Modify the DOMContentLoaded event to remove createParticles call
+document.addEventListener('DOMContentLoaded', () => {
+    // Check for saved theme preference
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        const icon = document.querySelector('.theme-toggle i');
+        if (icon) {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+    }
+    
+    console.log('DOM content loaded, fetching repositories...');
+    // Fetch repositories with a short delay to let the page render
+    setTimeout(fetchGitHubRepos, 1000);
+    
+    // Remove createParticles call and related window resize listener
 });
 
 // Input animation for form fields
@@ -595,7 +721,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Reset position
         position = 0;
-        skillsTrack.style.transform = `translateX(${position}px)`;
+        // const visibleItems = Math.floor(containerWidth / totalItemWidth);
         
         // Update active items
         updateActiveItems();
@@ -620,3 +746,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cursor) cursor.style.display = 'none';
     }
 });
+
+const currentYear = new Date().getFullYear();
+document.getElementById('current-year').textContent = currentYear;

@@ -42,23 +42,42 @@ body {
     transition: var(--transition);
 }
 
-.cursor {
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--primary-color);
-    border-radius: 50%;
+/* Scroll Progress Indicator */
+.scroll-progress-indicator {
     position: fixed;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    transition: width 0.3s, height 0.3s, transform 0.1s;
-    z-index: 9999;
-    mix-blend-mode: difference;
+    bottom: 20px;
+    right: 20px;
+    padding: 8px 12px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+    opacity: 0.8;
+}
+
+.scroll-progress-indicator:hover {
+    opacity: 1;
+}
+
+.dark-mode .scroll-progress-indicator {
+    background-color: var(--secondary-color);
+}
+
+.cursor {
+    display: none;
 }
 
 /* Fix cursor on mobile */
 @media (max-width: 768px) {
-    .cursor {
-        display: none;
+    .scroll-progress-indicator {
+        padding: 6px 10px;
+        font-size: 12px;
+        bottom: 15px;
+        right: 15px;
     }
 }
 
@@ -191,10 +210,32 @@ h1 {
     animation-delay: 0.5s;
 }
 
+/* Styling for the typing text */
 .typing-text {
     font-size: 1.8rem;
     margin-bottom: 1.5rem;
     min-height: 2.5rem;
+}
+
+#profession {
+    font-weight: 700;
+    color: var(--primary-color);
+    position: relative;
+    display: inline-block;
+}
+
+/* Add a subtle highlight effect to the profession */
+#profession::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30%;
+    background-color: var(--primary-color);
+    opacity: 0.1;
+    z-index: -1;
+    border-radius: 4px;
 }
 
 .hero-description {
@@ -258,6 +299,7 @@ h1 {
     transform: translateY(-3px);
 }
 
+/* Updated Blob Animation with hover effect */
 .hero-image {
     position: relative;
     width: 500px;
@@ -265,6 +307,7 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: visible;
 }
 
 .blob {
@@ -274,13 +317,128 @@ h1 {
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
     animation: blobAnimation 8s ease-in-out infinite;
-    max-width: 90%; /* Ensure blob doesn't overflow on small screens */
+    max-width: 90%;
+    box-shadow: 0 0 50px rgba(255, 127, 80, 0.3);
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Blob hover effect */
+.blob:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 70px rgba(255, 127, 80, 0.5);
+}
+
+/* Emoji styling inside the blob */
+.emoji {
+    z-index: 2;
+    user-select: none;
+    animation: floatEmoji 4s ease-in-out infinite alternate;
+}
+
+.emoji-img {
+    width: 8rem;
+    height: 8rem;
+    object-fit: contain;
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.2));
+}
+
+@keyframes floatEmoji {
+    0% {
+        transform: translateY(-5px) rotate(-5deg);
+    }
+    100% {
+        transform: translateY(5px) rotate(5deg);
+    }
+}
+
+/* Responsive emoji sizing */
+@media (max-width: 768px) {
+    .emoji-img {
+        width: 6rem;
+        height: 6rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .emoji-img {
+        width: 5rem;
+        height: 5rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .emoji-img {
+        width: 4rem;
+        height: 4rem;
+    }
+}
+
+/* Add glow effect to blob */
+.blob::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    z-index: -1;
+    filter: blur(25px);
+    opacity: 0.7;
+    animation: glowAnimation 4s ease-in-out infinite alternate;
+}
+
+/* Remove particle elements - we're not using them anymore */
+.particles-container {
+    display: none;
+}
+
+.particle {
+    display: none;
 }
 
 @keyframes blobAnimation {
-    0% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
-    50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
-    100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    0% { 
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        transform: rotate(0deg);
+    }
+    50% { 
+        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+        transform: rotate(10deg);
+    }
+    100% { 
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes glowAnimation {
+    0% {
+        opacity: 0.5;
+        filter: blur(20px);
+    }
+    100% {
+        opacity: 0.7;
+        filter: blur(30px);
+    }
+}
+
+@keyframes floatAnimation {
+    0% {
+        transform: translateY(0) translateX(0);
+    }
+    50% {
+        transform: translateY(-15px) translateX(10px);
+    }
+    100% {
+        transform: translateY(0) translateX(0);
+    }
 }
 
 /* Section Styling */
@@ -816,6 +974,49 @@ textarea:focus ~ .input-animation {
     width: 100%;
 }
 
+/* Improved error message styling */
+.error-message {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.error-message i {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+}
+
+.error-message p {
+    margin-bottom: 1rem;
+}
+
+.error-message ul {
+    text-align: left;
+    margin: 1rem auto;
+    max-width: 80%;
+}
+
+.error-message ul li {
+    margin-bottom: 0.5rem;
+}
+
+.error-message a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.error-message a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
 /* Footer */
 footer {
     background-color: var(--card-bg);
@@ -888,6 +1089,7 @@ footer i {
     }
 }
 
+/* Responsive adjustments for typing text */
 @media (max-width: 768px) {
     header {
         padding: 1rem 5%;
@@ -903,6 +1105,10 @@ footer i {
     
     .typing-text {
         font-size: 1.5rem;
+    }
+    
+    #profession {
+        font-weight: 600;
     }
     
     .blob {
