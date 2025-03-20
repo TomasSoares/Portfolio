@@ -205,6 +205,69 @@ const showLoading = () => {
     repoContainer.innerHTML = '<div class="repo-loading"><div class="dot-pulse"></div><p class="loading-text">Loading projects...</p></div>';
 };
 
+// Function to get appropriate icon for programming languages
+const getLanguageIcon = (language) => {
+    // Map common languages to their Font Awesome or custom icons
+    const languageIcons = {
+        'JavaScript': '<i class="fab fa-js-square"></i>',
+        'TypeScript': '<i class="fab fa-js-square" style="color: #007acc;"></i>',
+        'HTML': '<i class="fab fa-html5"></i>',
+        'CSS': '<i class="fab fa-css3-alt"></i>',
+        'Python': '<i class="fab fa-python"></i>',
+        'Java': '<i class="fab fa-java"></i>',
+        'PHP': '<i class="fab fa-php"></i>',
+        'C#': '<i class="fab fa-microsoft"></i>',
+        'C++': '<span class="language-icon">C++</span>',
+        'C': '<span class="language-icon">C</span>',
+        'Ruby': '<i class="fab fa-ruby"></i>',
+        'Swift': '<i class="fab fa-swift"></i>',
+        'Kotlin': '<span class="language-icon">K</span>',
+        'Go': '<span class="language-icon">Go</span>',
+        'Rust': '<span class="language-icon">Rs</span>',
+        'Dart': '<span class="language-icon">Dt</span>',
+        'R': '<span class="language-icon">R</span>',
+        'Shell': '<i class="fas fa-terminal"></i>',
+        'PowerShell': '<i class="fas fa-terminal"></i>',
+        'Dockerfile': '<i class="fab fa-docker"></i>',
+        'Vue': '<i class="fab fa-vuejs"></i>',
+        'React': '<i class="fab fa-react"></i>',
+        'Angular': '<i class="fab fa-angular"></i>',
+    };
+
+    return languageIcons[language] || `<span class="language-icon">${language.charAt(0)}</span>`;
+};
+
+// Language color mapping
+const getLanguageColor = (language) => {
+    // Language colors inspired by GitHub's language colors
+    const colors = {
+        'JavaScript': '#f1e05a',
+        'TypeScript': '#2b7489',
+        'HTML': '#e34c26',
+        'CSS': '#563d7c',
+        'Python': '#3572A5',
+        'Java': '#b07219',
+        'PHP': '#4F5D95',
+        'C#': '#178600',
+        'C++': '#f34b7d',
+        'C': '#555555',
+        'Ruby': '#701516',
+        'Swift': '#ffac45',
+        'Kotlin': '#F18E33',
+        'Go': '#00ADD8',
+        'Rust': '#dea584',
+        'Dart': '#00B4AB',
+        'R': '#198CE7',
+        'Shell': '#89e051',
+        'PowerShell': '#012456',
+        'Vue': '#41B883',
+        'React': '#61DAFB',
+        'Angular': '#DD0031',
+    };
+    
+    return colors[language] || '#8f8f8f';
+};
+
 // Function to fetch GitHub repositories with improved error handling
 const fetchGitHubRepos = async () => {
     // Hardcoded username
@@ -273,6 +336,9 @@ const fetchGitHubRepos = async () => {
                     : repo.description) 
                 : 'No description provided.';
             
+            // Determine if we have a homepage link for the demo button
+            const hasDemo = repo.homepage && repo.homepage.trim() !== '';
+            
             // Create basic card structure while waiting for languages
             card.innerHTML = `
                 <div class="project-info">
@@ -282,10 +348,11 @@ const fetchGitHubRepos = async () => {
                         <span class="tech-tag">Loading languages...</span>
                     </div>
                     <div class="project-links">
-                        <a href="${repo.html_url}" target="_blank" class="project-link">
-                            <i class="fab fa-github"></i> View on GitHub
+                        <a href="${repo.html_url}" target="_blank" class="github-link">
+                            <i class="fab fa-github"></i> View Source
                         </a>
-                        ${repo.homepage ? `<a href="${repo.homepage}" target="_blank" class="project-link">
+                        ${hasDemo ? `
+                        <a href="${repo.homepage}" target="_blank" class="demo-link">
                             <i class="fas fa-external-link-alt"></i> Live Demo
                         </a>` : ''}
                     </div>
@@ -306,11 +373,14 @@ const fetchGitHubRepos = async () => {
                     const languagesList = Object.keys(languages).slice(0, 3);
                     console.log(`Languages for ${repo.name}: ${languagesList.join(', ')}`);
                     
-                    // Update the languages section
+                    // Update the languages section with icons
                     const techDiv = card.querySelector('.project-tech');
                     techDiv.innerHTML = languagesList.length > 0 
-                        ? languagesList.map(lang => `<span class="tech-tag">${lang}</span>`).join('') 
-                        : '<span class="tech-tag">No languages detected</span>';
+                        ? languagesList.map(lang => 
+                            `<span class="tech-tag" style="background-color: ${getLanguageColor(lang)}20; color: ${getLanguageColor(lang)};">
+                                ${getLanguageIcon(lang)} ${lang}
+                            </span>`).join('') 
+                        : '<span class="tech-tag"><i class="fas fa-code"></i> No languages detected</span>';
                 })
                 .catch(err => {
                     console.error(`Error fetching languages for ${repo.name}:`, err);

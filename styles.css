@@ -108,63 +108,78 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* Header & Navigation */
+/* Updated Header & Navigation */
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 10%;
+    padding: 1.2rem 8%;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 100;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     transition: var(--transition);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
 }
 
 .dark-mode header {
-    background-color: rgba(26, 26, 46, 0.9);
+    background-color: rgba(26, 26, 46, 0.95);
 }
 
 .logo {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 700;
     color: var(--text-color);
+    letter-spacing: 0.5px;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
 }
 
 .highlight {
     color: var(--primary-color);
 }
 
+nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
 nav ul {
     display: flex;
     list-style: none;
-}
-
-nav ul li {
-    margin: 0 1.5rem;
+    gap: 2.5rem;
 }
 
 .nav-link {
     color: var(--text-color);
     text-decoration: none;
     font-weight: 500;
-    padding: 0.5rem 0;
+    padding: 0.5rem;
     position: relative;
     transition: var(--transition);
+    font-size: 1.05rem;
 }
 
 .nav-link::after {
     content: '';
     position: absolute;
     width: 0;
-    height: 3px;
+    height: 2px;
     bottom: 0;
     left: 0;
     background-color: var(--primary-color);
-    transition: var(--transition);
+    transition: width 0.3s ease;
+    border-radius: 2px;
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
 }
 
 .nav-link:hover::after,
@@ -172,14 +187,86 @@ nav ul li {
     width: 100%;
 }
 
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
 .theme-toggle {
     font-size: 1.2rem;
     cursor: pointer;
     transition: var(--transition);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--card-bg);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 .theme-toggle:hover {
     color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments for navbar */
+@media (max-width: 768px) {
+    header {
+        padding: 1rem 5%;
+    }
+    
+    nav ul {
+        gap: 1.5rem;
+    }
+    
+    .nav-link {
+        font-size: 0.95rem;
+    }
+    
+    .logo {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 576px) {
+    header {
+        padding: 1rem 4%;
+    }
+    
+    nav ul {
+        gap: 1rem;
+    }
+    
+    .nav-link {
+        font-size: 0.9rem;
+        padding: 0.4rem;
+    }
+}
+
+/* Fix for very small devices */
+@media (max-width: 360px) {
+    .logo {
+        font-size: 1.4rem;
+    }
+    
+    .nav-link {
+        font-size: 0.85rem;
+        padding: 0.3rem;
+    }
+    
+    nav ul {
+        gap: 0.8rem;
+    }
+    
+    .theme-toggle {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
 }
 
 /* Hero Section */
@@ -687,6 +774,199 @@ section {
     min-height: 200px;
     position: relative;
     width: 100%;
+}
+
+/* Enhanced Project Card Styling */
+.project-card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Smoother, slightly bouncy transition */
+    opacity: 0;
+    transform: translateY(30px);
+    animation: none;
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    z-index: 1;
+    will-change: transform; /* Optimize for animations */
+    cursor: pointer;
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-15px) scale(1.03); /* Slightly larger scale effect */
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+    border-color: transparent;
+}
+
+.project-card:hover::before {
+    opacity: 0.05;
+}
+
+/* Make card content move slightly on hover for depth effect */
+.project-card .project-info {
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-info {
+    transform: translateY(-3px);
+}
+
+/* Make card approach viewer with 3D-like effect */
+.project-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: transparent;
+    border-radius: var(--border-radius);
+    z-index: -2;
+    transition: all 0.4s ease;
+    transform: scale(0.95);
+    opacity: 0;
+}
+
+.project-card:hover::after {
+    transform: scale(1.02);
+    opacity: 1;
+    box-shadow: 0 10px 30px -5px rgba(255, 127, 80, 0.2);
+}
+
+/* Special hover effect for language tags and links */
+.project-card:hover .tech-tag {
+    background-color: rgba(255, 127, 80, 0.2);
+    transform: translateY(-3px);
+}
+
+.project-card:hover .project-title {
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* Enhanced Tech Tags with Icons */
+.tech-tag {
+    background-color: rgba(255, 127, 80, 0.1);
+    color: var(--primary-color);
+    padding: 0.4rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 6px;
+}
+
+.tech-tag i, .tech-tag .language-icon {
+    font-size: 1rem;
+}
+
+.language-icon {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 0.8rem;
+}
+
+.project-card:hover .tech-tag {
+    transform: translateY(-3px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Make sure there's space between tags */
+.project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.2rem;
+}
+
+.project-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    word-break: break-word;
+    transition: all 0.3s ease;
+}
+
+.project-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    width: 100%;
+}
+
+.github-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 0;
+    position: relative;
+}
+
+.github-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.github-link:hover {
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.github-link:hover::after {
+    width: 100%;
+}
+
+.demo-link {
+    color: white;
+    background-color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(255, 127, 80, 0.2);
+}
+
+.demo-link:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(255, 127, 80, 0.3);
+}
+
+.project-link i, .github-link i, .demo-link i {
+    font-size: 1rem;
 }
 
 .project-card {
