@@ -630,7 +630,21 @@ section {
 .skills-track {
     display: flex;
     width: max-content;
-    transition: transform 0.5s ease-out;
+    animation: scrollSkills 30s linear infinite;
+    padding: 1rem 0;
+}
+
+@keyframes scrollSkills {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.skills-track:hover {
+    animation-play-state: paused;
 }
 
 /* Redesigned rectangular skill items */

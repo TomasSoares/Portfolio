@@ -277,11 +277,8 @@ const fetchGitHubRepos = async () => {
     showLoading();
     
     try {
-        console.log(`Fetching repositories for ${username}...`);
         const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=6`);
         const repos = await response.json();
-        
-        console.log(`Response status: ${response.status}`);
         
         // Handle rate limit exceeded error
         if (response.status === 403 && repos.message && repos.message.includes('rate limit')) {
@@ -291,8 +288,6 @@ const fetchGitHubRepos = async () => {
         if (response.status !== 200) {
             throw new Error(repos.message || 'Error fetching repositories');
         }
-        
-        console.log(`Repositories found: ${repos.length}`);
         
         // Clear container
         repoContainer.innerHTML = '';
@@ -326,8 +321,6 @@ const fetchGitHubRepos = async () => {
             const card = document.createElement('div');
             card.className = 'project-card';
             card.style.animation = 'none'; // Reset animation
-            
-            console.log(`Processing repo: ${repo.name}`);
             
             // Truncate description if too long
             const description = repo.description 
@@ -371,7 +364,6 @@ const fetchGitHubRepos = async () => {
                 .then(response => response.json())
                 .then(languages => {
                     const languagesList = Object.keys(languages).slice(0, 3);
-                    console.log(`Languages for ${repo.name}: ${languagesList.join(', ')}`);
                     
                     // Update the languages section with icons
                     const techDiv = card.querySelector('.project-tech');
@@ -383,14 +375,11 @@ const fetchGitHubRepos = async () => {
                         : '<span class="tech-tag"><i class="fas fa-code"></i> No languages detected</span>';
                 })
                 .catch(err => {
-                    console.error(`Error fetching languages for ${repo.name}:`, err);
                     const techDiv = card.querySelector('.project-tech');
                     techDiv.innerHTML = '<span class="tech-tag">Error loading languages</span>';
                 });
         });
     } catch (error) {
-        console.error('Error fetching repositories:', error);
-        
         // Create a more user-friendly error message for rate limiting
         let errorMessage = error.message;
         let helpText = 'Please refresh the page to try again.';
@@ -428,36 +417,8 @@ document.addEventListener('DOMContentLoaded', () => {
         icon.classList.add('fa-sun');
     }
     
-    console.log('DOM content loaded, fetching repositories...');
     // Fetch repositories with a short delay to let the page render
     setTimeout(fetchGitHubRepos, 1000);
-});
-
-// Contact form submission
-const contactForm = document.getElementById('contactForm');
-
-contactForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const subject = document.getElementById('subject').value;
-    const message = document.getElementById('message').value;
-    
-    // This would normally connect to a backend service
-    // For demonstration, show a success message
-    
-    const submitButton = contactForm.querySelector('button[type="submit"]');
-    const originalText = submitButton.textContent;
-    submitButton.textContent = 'Sending...';
-    
-    // Simulate sending
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    alert(`Message received!\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject}\nMessage: ${message}`);
-    
-    submitButton.textContent = originalText;
-    contactForm.reset();
 });
 
 // Parallax effect for blob in hero section
@@ -554,190 +515,112 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    console.log('DOM content loaded, fetching repositories...');
     // Fetch repositories with a short delay to let the page render
     setTimeout(fetchGitHubRepos, 1000);
     
     // Remove createParticles call and related window resize listener
 });
 
-// Input animation for form fields
-const formInputs = document.querySelectorAll('input, textarea');
-formInputs.forEach(input => {
-    input.addEventListener('focus', () => {
-        input.parentElement.classList.add('focused');
-    });
-    
-    input.addEventListener('blur', () => {
-        if (input.value === '') {
-            input.parentElement.classList.remove('focused');
-        }
-    });
-});
-
-// Add a CSS class for the form input animation
-const inputStyle = document.createElement('style');
-inputStyle.textContent = `
-    .form-group.focused .input-animation {
-        width: 100%;
-    }
-`;
-document.head.appendChild(inputStyle);
-
-// Completely new implementation of Skills carousel functionality
+// New Skills Carousel implementation
 document.addEventListener('DOMContentLoaded', () => {
-    // Wait for all resources to load
-    window.addEventListener('load', () => {
-        initSkillsCarousel();
+    // Initialize skills carousel when the DOM is fully loaded
+    initSkillsCarousel();
+    
+    // Re-initialize on window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(initSkillsCarousel, 300);
+    });
+});
+
+function initSkillsCarousel() {
+    const skillsTrack = document.querySelector('.skills-track');
+    if (!skillsTrack) return;
+    
+    // Stop any existing animation
+    skillsTrack.style.animation = 'none';
+    
+    // Get all original skill items
+    const originalItems = Array.from(skillsTrack.querySelectorAll('.skill-item'));
+    if (originalItems.length === 0) return;
+    
+    // Remove any previously cloned items
+    const clonedItems = skillsTrack.querySelectorAll('[data-cloned="true"]');
+    clonedItems.forEach(item => item.remove());
+    
+    // Calculate total width of original items
+    const trackWidth = originalItems.reduce((width, item) => {
+        const itemWidth = item.offsetWidth + 
+                          parseInt(getComputedStyle(item).marginLeft) + 
+                          parseInt(getComputedStyle(item).marginRight);
+        return width + itemWidth;
+    }, 0);
+    
+    // Clone items to ensure smooth infinite scrolling
+    // We need enough clones to cover at least 200% of the visible area
+    const containerWidth = skillsTrack.parentElement.offsetWidth;
+    const clonesNeeded = Math.ceil((containerWidth * 2) / trackWidth);
+    
+    // Add clones
+    for (let i = 0; i < clonesNeeded; i++) {
+        originalItems.forEach(item => {
+            const clone = item.cloneNode(true);
+            clone.setAttribute('data-cloned', 'true');
+            skillsTrack.appendChild(clone);
+        });
+    }
+    
+    // Calculate animation duration based on content length
+    // Longer content = slower scroll speed for readability
+    const totalItems = skillsTrack.querySelectorAll('.skill-item').length;
+    const animationDuration = Math.max(30, totalItems * 2); // At least 30s, or 2s per item
+    
+    // Apply animation after a short delay to prevent flashing
+    setTimeout(() => {
+        skillsTrack.style.animation = `scrollSkills ${animationDuration}s linear infinite`;
+    }, 50);
+    
+    // Handle pause on hover
+    skillsTrack.addEventListener('mouseenter', () => {
+        skillsTrack.style.animationPlayState = 'paused';
     });
     
-    function initSkillsCarousel() {
-        const skillsTrack = document.querySelector('.skills-track');
-        if (!skillsTrack) {
-            console.error("Skills track element not found");
-            return;
-        }
-        
-        console.log("Initializing skills carousel");
-        
-        // Clone items for smooth infinite loop
-        const originalItems = Array.from(skillsTrack.querySelectorAll('.skill-item'));
-        if (originalItems.length === 0) {
-            console.error("No skill items found");
-            return;
-        }
-        
-        // Clear any existing clones first
-        const allItems = skillsTrack.querySelectorAll('.skill-item');
-        const originalItemsCount = originalItems.length;
-        
-        // Remove any previously cloned items (those beyond the original count)
-        for (let i = allItems.length - 1; i >= originalItemsCount; i--) {
-            if (allItems[i].parentNode === skillsTrack) {
-                skillsTrack.removeChild(allItems[i]);
-            }
-        }
-        
-        // Clone original items and append them
-        originalItems.forEach(item => {
-            const clone = item.cloneNode(true);
-            clone.setAttribute('data-cloned', 'true');
-            skillsTrack.appendChild(clone);
-        });
-        
-        // Add another set to ensure smooth looping
-        originalItems.forEach(item => {
-            const clone = item.cloneNode(true);
-            clone.setAttribute('data-cloned', 'true');
-            skillsTrack.appendChild(clone);
-        });
-        
-        // Set up manual animation with requestAnimationFrame
-        let scrollPosition = 0;
-        let scrollSpeed = 0.5; // pixels per frame
-        let isPaused = false;
-        let animationId = null;
-        
-        // Calculate when to reset position (halfway through the duplicated content)
-        const firstSetWidth = originalItems.reduce((total, item) => {
-            return total + item.offsetWidth + parseInt(getComputedStyle(item).marginLeft) + 
-                   parseInt(getComputedStyle(item).marginRight);
-        }, 0);
-        
-        function step() {
-            if (!isPaused) {
-                scrollPosition += scrollSpeed;
-                
-                // Reset position when we've scrolled past the first set
-                if (scrollPosition >= firstSetWidth) {
-                    scrollPosition = 0;
-                }
-                
-                skillsTrack.style.transform = `translateX(-${scrollPosition}px)`;
-            }
-            animationId = requestAnimationFrame(step);
-        }
-        
-        // Start animation
-        animationId = requestAnimationFrame(step);
-        
-        // Add pause/resume on hover
-        skillsTrack.addEventListener('mouseenter', () => {
-            isPaused = true;
-        });
-        
-        skillsTrack.addEventListener('mouseleave', () => {
-            isPaused = false;
-        });
-        
-        // Add pause/resume on touch for mobile
-        skillsTrack.addEventListener('touchstart', () => {
-            isPaused = true;
-        });
-        
-        skillsTrack.addEventListener('touchend', () => {
-            isPaused = false;
-        });
-        
-        // Clean up on page hide/unload
-        window.addEventListener('pagehide', () => {
-            if (animationId) {
-                cancelAnimationFrame(animationId);
-            }
-        });
-        
-        window.addEventListener('beforeunload', () => {
-            if (animationId) {
-                cancelAnimationFrame(animationId);
-            }
-        });
-        
-        // Handle visibility change (tab switching)
-        document.addEventListener('visibilitychange', () => {
-            isPaused = document.hidden;
-        });
-        
-        // Reset on window resize
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                // Recalculate firstSetWidth
-                const updatedFirstSetWidth = Array.from(skillsTrack.querySelectorAll('.skill-item'))
-                    .slice(0, originalItemsCount)
-                    .reduce((total, item) => {
-                        return total + item.offsetWidth + parseInt(getComputedStyle(item).marginLeft) + 
-                               parseInt(getComputedStyle(item).marginRight);
-                    }, 0);
-                
-                // Update the calculated width
-                firstSetWidth = updatedFirstSetWidth;
-                
-                // Reset position if needed
-                if (scrollPosition >= firstSetWidth) {
-                    scrollPosition = 0;
-                    skillsTrack.style.transform = `translateX(0)`;
-                }
-            }, 300);
-        });
-        
-        console.log("Skills carousel initialized successfully");
+    skillsTrack.addEventListener('mouseleave', () => {
+        skillsTrack.style.animationPlayState = 'running';
+    });
+    
+    // Handle touch devices
+    skillsTrack.addEventListener('touchstart', () => {
+        skillsTrack.style.animationPlayState = 'paused';
+    });
+    
+    skillsTrack.addEventListener('touchend', () => {
+        skillsTrack.style.animationPlayState = 'running';
+    });
+}
+
+// Modify @keyframes dynamically based on content
+function updateKeyframes() {
+    // Find or create the style element for our dynamic CSS
+    let styleElement = document.getElementById('skills-carousel-style');
+    if (!styleElement) {
+        styleElement = document.createElement('style');
+        styleElement.id = 'skills-carousel-style';
+        document.head.appendChild(styleElement);
     }
     
-    // Re-initialize if About section becomes visible
-    const aboutSection = document.getElementById('about');
-    if (aboutSection) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    initSkillsCarousel();
-                }
-            });
-        }, {threshold: 0.1});
-        
-        observer.observe(aboutSection);
-    }
-});
+    // Update the keyframes animation
+    styleElement.textContent = `
+        @keyframes scrollSkills {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    `;
+}
+
+// Call this when DOM is ready
+document.addEventListener('DOMContentLoaded', updateKeyframes);
 
 // Disable custom cursor on mobile devices
 document.addEventListener('DOMContentLoaded', () => {
