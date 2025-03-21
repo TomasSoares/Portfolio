@@ -1,10 +1,11 @@
-window.addEventListener('load', () => {
-    const loadingScreen = document.querySelector('.loading-screen');
-    setTimeout(() => {
-        loadingScreen.style.opacity = '0';
-        loadingScreen.style.visibility = 'hidden';
-    }, 1500);
-});
+// Remove loading screen code
+// window.addEventListener('load', () => {
+//     const loadingScreen = document.querySelector('.loading-screen');
+//     setTimeout(() => {
+//         loadingScreen.style.opacity = '0';
+//         loadingScreen.style.visibility = 'hidden';
+//     }, 1500);
+// });
 
 const updateScrollProgress = () => {
     const scrollIndicator = document.querySelector('.scroll-progress-indicator');
@@ -76,7 +77,14 @@ function typeText() {
     setTimeout(typeText, typingDelay);
 }
 
-document.addEventListener('DOMContentLoaded', typeText);
+// Delay the start of typing animation to match other elements
+document.addEventListener('DOMContentLoaded', () => {
+    // Wait 700ms before starting the typing animation (600ms delay + 100ms buffer)
+    setTimeout(typeText, 700);
+    
+    // ...existing DOMContentLoaded code...
+    updateScrollProgress();
+});
 
 const themeToggle = document.querySelector('.theme-toggle');
 themeToggle.addEventListener('click', () => {

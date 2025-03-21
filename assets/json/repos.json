@@ -4,7 +4,7 @@
       "name": "Portfolio",
       "description": "My personal portfolio website showcasing my projects and skills",
       "html_url": "https://github.com/TomasSoares/portfolio",
-      "homepage": "https://tomassoares.github.io/portfolio",
+      "homepage": "https://tsoares.vercel.app/",
       "languages": {
         "HTML": 60,
         "CSS": 30,
