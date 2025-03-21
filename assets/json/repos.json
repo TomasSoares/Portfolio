@@ -1,0 +1,77 @@
+{
+  "repos": [
+    {
+      "name": "Portfolio",
+      "description": "My personal portfolio website showcasing my projects and skills",
+      "html_url": "https://github.com/TomasSoares/portfolio",
+      "homepage": "https://tomassoares.github.io/portfolio",
+      "languages": {
+        "HTML": 60,
+        "CSS": 30,
+        "JavaScript": 10
+      }
+    },
+    {
+      "name": "Notly",
+      "description": "A note taking app. (Write. Save. Remeber.)",
+      "html_url": "https://github.com/TomasSoares/Notly",
+      "homepage": "https://notly-steel.vercel.app/",
+      "languages": {
+        "HTML": 80, 
+        "CSS": 30,
+        "JavaScript": 10
+      }
+    },
+    {
+      "name": "Memory Game",
+      "description": "",
+      "html_url": "https://github.com/TomasSoares/Memory-Game",
+      "homepage": "",
+      "languages": {
+        "Vue": 50,
+        "Laravel": 30
+      }
+    },
+    {
+      "name": "Tournament",
+      "description": "Site para torneio do Grupo Desportivo Cultural Recreativo Outeiro Louriçal",
+      "html_url": "https://github.com/TomasSoares/tournament",
+      "homepage": "https://tournament-two-beryl.vercel.app/",
+      "languages": {
+        "HTML": 60,
+        "CSS": 30,
+        "JavaScript": 10
+      }
+    },
+    {
+      "name": "Password Generator",
+      "description": "Craft Strong, Secure Passwords in Seconds – Your Digital Safety, Simplified. ",
+      "html_url": "https://github.com/TomasSoares/password-generator",
+      "homepage": "https://password-generator-psi-olive-50.vercel.app/",
+      "languages": {
+        "HTML": 50,
+        "Python": 20,
+        "JavaScript": 20,
+        "CSS": 10
+      }
+    },
+    {
+      "name": "Team Mixer",
+      "description": "Team Mixer is a Python application that allows users to input player names and randomly form two teams.",
+      "html_url": "https://github.com/TomasSoares/team-mixer",
+      "homepage": "",
+      "languages": {
+        "Python": 100
+      }
+    },
+    {
+      "name": "MultiTool",
+      "description": "MultiTool is a simple batch script that provides a quick-access menu to launch various programs from the terminal. It features a colorful interface and an interactive selection system for efficiency.",
+      "html_url": "https://github.com/TomasSoares/team-mixer",
+      "homepage": "",
+      "languages": {
+        "Batch": 100
+      }
+    }
+  ]
+}

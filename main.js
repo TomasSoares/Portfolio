@@ -1,15 +1,11 @@
-// Loading screen animation
 window.addEventListener('load', () => {
     const loadingScreen = document.querySelector('.loading-screen');
     setTimeout(() => {
         loadingScreen.style.opacity = '0';
-        setTimeout(() => {
-            loadingScreen.style.display = 'none';
-        }, 500);
+        loadingScreen.style.visibility = 'hidden';
     }, 1500);
 });
 
-// Add scroll progress indicator functionality
 const updateScrollProgress = () => {
     const scrollIndicator = document.querySelector('.scroll-progress-indicator');
     
@@ -18,29 +14,20 @@ const updateScrollProgress = () => {
     const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrollPosition = window.scrollY;
     
-    // Calculate scroll percentage
     const scrollPercentage = Math.round((scrollPosition / windowHeight) * 100);
     
-    // Update indicator text
     scrollIndicator.textContent = `${scrollPercentage}%`;
-    
-    // Make indicator more visible when scrolling
     scrollIndicator.style.opacity = '1';
     
-    // Reset opacity after a delay
     clearTimeout(window.scrollTimeout);
     window.scrollTimeout = setTimeout(() => {
         scrollIndicator.style.opacity = '0.8';
     }, 1500);
 };
 
-// Track scroll position
 window.addEventListener('scroll', updateScrollProgress);
-
-// Initialize scroll indicator on page load
 document.addEventListener('DOMContentLoaded', updateScrollProgress);
 
-// Typing animation with proper grammar and special case for "Driven"
 const professionsArray = ["Computer Science Student", "Coder", "Driven", "Innovator", "Enthusiast", "Engineer", "Artist"];
 let currentProfessionIndex = 0;
 let currentCharIndex = 0;
@@ -51,20 +38,16 @@ function typeText() {
     const professionElement = document.getElementById('profession');
     const currentProfession = professionsArray[currentProfessionIndex];
     
-    // Special case for "Driven" which doesn't need an article
     if (currentProfession === "Driven") {
-        // Update text to not include an article
         const typingContainer = document.querySelector('.typing-text');
         if (typingContainer) {
             typingContainer.childNodes[0].nodeValue = "I'm ";
         }
     } else {
-        // Determine if we need "a" or "an" based on the first letter of the profession
         const firstLetter = currentProfession.charAt(0).toLowerCase();
         const vowels = ['a', 'e', 'i', 'o', 'u'];
         const article = vowels.includes(firstLetter) ? 'an' : 'a';
         
-        // Update the text before the profession element
         const typingContainer = document.querySelector('.typing-text');
         if (typingContainer) {
             typingContainer.childNodes[0].nodeValue = `I'm ${article} `;
@@ -83,25 +66,22 @@ function typeText() {
     
     if (!isDeleting && currentCharIndex === currentProfession.length) {
         isDeleting = true;
-        typingDelay = 1500; // Pause at the end
+        typingDelay = 1500;
     } else if (isDeleting && currentCharIndex === 0) {
         isDeleting = false;
         currentProfessionIndex = (currentProfessionIndex + 1) % professionsArray.length;
-        typingDelay = 500; // Pause before typing the next word
+        typingDelay = 500;
     }
     
     setTimeout(typeText, typingDelay);
 }
 
-// Start the typing animation
 document.addEventListener('DOMContentLoaded', typeText);
 
-// Dark mode toggle
 const themeToggle = document.querySelector('.theme-toggle');
 themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
     
-    // Change the icon
     const icon = themeToggle.querySelector('i');
     if (document.body.classList.contains('dark-mode')) {
         icon.classList.remove('fa-moon');
@@ -111,23 +91,10 @@ themeToggle.addEventListener('click', () => {
         icon.classList.add('fa-moon');
     }
     
-    // Save preference in localStorage
     const isDarkMode = document.body.classList.contains('dark-mode');
     localStorage.setItem('darkMode', isDarkMode);
 });
 
-// Check for saved theme preference
-document.addEventListener('DOMContentLoaded', () => {
-    const isDarkMode = localStorage.getItem('darkMode') === 'true';
-    if (isDarkMode) {
-        document.body.classList.add('dark-mode');
-        const icon = document.querySelector('.theme-toggle i');
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-    }
-});
-
-// Scroll animations with Intersection Observer
 const observerOptions = {
     threshold: 0.25,
     rootMargin: '0px 0px -100px 0px'
@@ -137,24 +104,15 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('in-view');
-            
-            // Remove this since we no longer have skill bars
-            // if (entry.target.id === 'about') {
-            //    document.querySelectorAll('.skill-level').forEach(skill => {
-            //        skill.style.transform = 'scaleX(1)';
-            //    });
-            // }
         }
     });
 }, observerOptions);
 
-// Observe all sections for scroll animations
 document.querySelectorAll('section').forEach(section => {
     observer.observe(section);
     section.classList.add('fade-in-section');
 });
 
-// Add a CSS class for the animation
 const style = document.createElement('style');
 style.textContent = `
     .fade-in-section {
@@ -169,7 +127,6 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Active navigation link highlighting based on scroll position
 window.addEventListener('scroll', () => {
     const scrollPosition = window.scrollY;
     
@@ -188,7 +145,6 @@ window.addEventListener('scroll', () => {
         }
     });
     
-    // Header background opacity based on scroll
     const header = document.querySelector('header');
     if (scrollPosition > 100) {
         header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
@@ -197,17 +153,13 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// GitHub repository fetching
 const repoContainer = document.getElementById('repoContainer');
 
-// Add loading animation
 const showLoading = () => {
     repoContainer.innerHTML = '<div class="repo-loading"><div class="dot-pulse"></div><p class="loading-text">Loading projects...</p></div>';
 };
 
-// Function to get appropriate icon for programming languages
 const getLanguageIcon = (language) => {
-    // Map common languages to their Font Awesome or custom icons
     const languageIcons = {
         'JavaScript': '<i class="fab fa-js-square"></i>',
         'TypeScript': '<i class="fab fa-js-square" style="color: #007acc;"></i>',
@@ -232,14 +184,14 @@ const getLanguageIcon = (language) => {
         'Vue': '<i class="fab fa-vuejs"></i>',
         'React': '<i class="fab fa-react"></i>',
         'Angular': '<i class="fab fa-angular"></i>',
+        'Laravel': '<i class="fab fa-laravel"></i>',
+        'Batch': '<span class="language-icon">B</span>'
     };
 
     return languageIcons[language] || `<span class="language-icon">${language.charAt(0)}</span>`;
 };
 
-// Language color mapping
 const getLanguageColor = (language) => {
-    // Language colors inspired by GitHub's language colors
     const colors = {
         'JavaScript': '#f1e05a',
         'TypeScript': '#2b7489',
@@ -263,41 +215,33 @@ const getLanguageColor = (language) => {
         'Vue': '#41B883',
         'React': '#61DAFB',
         'Angular': '#DD0031',
+        'Laravel': '#FF2D20',
+        'Batch': '#4D4D4D'
     };
     
     return colors[language] || '#8f8f8f';
 };
 
-// Function to fetch GitHub repositories with improved error handling
 const fetchGitHubRepos = async () => {
-    // Hardcoded username
-    const username = 'TomasSoares';
-    
-    // Show loading animation
     showLoading();
     
     try {
-        const response = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=6`);
-        const repos = await response.json();
+        const response = await fetch('assets/json/repos.json');
         
-        // Handle rate limit exceeded error
-        if (response.status === 403 && repos.message && repos.message.includes('rate limit')) {
-            throw new Error('API rate limit exceeded. Please try again later.');
+        if (!response.ok) {
+            throw new Error('Failed to load repository data');
         }
         
-        if (response.status !== 200) {
-            throw new Error(repos.message || 'Error fetching repositories');
-        }
+        const data = await response.json();
+        const repos = data.repos;
         
-        // Clear container
         repoContainer.innerHTML = '';
         
         if (repos.length === 0) {
-            repoContainer.innerHTML = '<p class="no-repos">No public repositories found.</p>';
+            repoContainer.innerHTML = '<p class="no-repos">No repositories found.</p>';
             return;
         }
         
-        // Create a style element for card animation
         if (!document.getElementById('card-animation-style')) {
             const cardStyle = document.createElement('style');
             cardStyle.id = 'card-animation-style';
@@ -316,29 +260,33 @@ const fetchGitHubRepos = async () => {
             document.head.appendChild(cardStyle);
         }
         
-        // Process and display each repository with staggered animations
         repos.forEach((repo, index) => {
             const card = document.createElement('div');
             card.className = 'project-card';
-            card.style.animation = 'none'; // Reset animation
+            card.style.animation = 'none';
             
-            // Truncate description if too long
             const description = repo.description 
                 ? (repo.description.length > 100 
                     ? repo.description.substring(0, 97) + '...' 
                     : repo.description) 
                 : 'No description provided.';
             
-            // Determine if we have a homepage link for the demo button
             const hasDemo = repo.homepage && repo.homepage.trim() !== '';
             
-            // Create basic card structure while waiting for languages
+            const languagesList = Object.keys(repo.languages).slice(0, 3);
+            const languagesHTML = languagesList.length > 0 
+                ? languagesList.map(lang => 
+                    `<span class="tech-tag" style="background-color: ${getLanguageColor(lang)}20; color: ${getLanguageColor(lang)};">
+                        ${getLanguageIcon(lang)} ${lang}
+                    </span>`).join('') 
+                : '<span class="tech-tag"><i class="fas fa-code"></i> No languages detected</span>';
+            
             card.innerHTML = `
                 <div class="project-info">
                     <h3 class="project-title">${repo.name}</h3>
                     <p class="project-description">${description}</p>
                     <div class="project-tech">
-                        <span class="tech-tag">Loading languages...</span>
+                        ${languagesHTML}
                     </div>
                     <div class="project-links">
                         <a href="${repo.html_url}" target="_blank" class="github-link">
@@ -354,157 +302,25 @@ const fetchGitHubRepos = async () => {
             
             repoContainer.appendChild(card);
             
-            // Add staggered animation to cards
             setTimeout(() => {
                 card.style.animation = `cardAppear 0.6s ease forwards`;
             }, index * 150);
-            
-            // Get repo languages
-            fetch(repo.languages_url)
-                .then(response => response.json())
-                .then(languages => {
-                    const languagesList = Object.keys(languages).slice(0, 3);
-                    
-                    // Update the languages section with icons
-                    const techDiv = card.querySelector('.project-tech');
-                    techDiv.innerHTML = languagesList.length > 0 
-                        ? languagesList.map(lang => 
-                            `<span class="tech-tag" style="background-color: ${getLanguageColor(lang)}20; color: ${getLanguageColor(lang)};">
-                                ${getLanguageIcon(lang)} ${lang}
-                            </span>`).join('') 
-                        : '<span class="tech-tag"><i class="fas fa-code"></i> No languages detected</span>';
-                })
-                .catch(err => {
-                    const techDiv = card.querySelector('.project-tech');
-                    techDiv.innerHTML = '<span class="tech-tag">Error loading languages</span>';
-                });
         });
     } catch (error) {
-        // Create a more user-friendly error message for rate limiting
-        let errorMessage = error.message;
-        let helpText = 'Please refresh the page to try again.';
-        
-        if (error.message.includes('rate limit')) {
-            errorMessage = 'GitHub API rate limit exceeded';
-            helpText = `
-                <p>This happens when too many requests are made from one location.</p>
-                <p>You can:</p>
-                <ul style="text-align: left; max-width: 400px; margin: 10px auto;">
-                    <li>Wait a few minutes and try again</li>
-                    <li>View projects directly on <a href="https://github.com/${username}" target="_blank" style="color: var(--primary-color);">GitHub</a></li>
-                </ul>
-            `;
-        }
-        
         repoContainer.innerHTML = `
             <div class="error-message">
                 <i class="fas fa-exclamation-circle" style="font-size: 2.5rem; color: var(--primary-color); margin-bottom: 15px;"></i>
-                <p style="font-size: 1.2rem; font-weight: 500; margin-bottom: 15px;">${errorMessage}</p>
-                <div class="error-details">${helpText}</div>
+                <p style="font-size: 1.2rem; font-weight: 500; margin-bottom: 15px;">Error loading projects</p>
+                <div class="error-details">
+                    <p>Couldn't load project data. Please check if repos.json exists and is properly formatted.</p>
+                </div>
             </div>
         `;
     }
 };
 
-// Load repositories when the page loads
+// Consolidated event listeners
 document.addEventListener('DOMContentLoaded', () => {
-    // Check for saved theme preference
-    const isDarkMode = localStorage.getItem('darkMode') === 'true';
-    if (isDarkMode) {
-        document.body.classList.add('dark-mode');
-        const icon = document.querySelector('.theme-toggle i');
-        icon.classList.remove('fa-moon');
-        icon.classList.add('fa-sun');
-    }
-    
-    // Fetch repositories with a short delay to let the page render
-    setTimeout(fetchGitHubRepos, 1000);
-});
-
-// Parallax effect for blob in hero section
-window.addEventListener('mousemove', (e) => {
-    // Only apply parallax on devices that are likely not touch devices
-    if (window.innerWidth > 768) {
-        const moveX = (e.clientX / window.innerWidth - 0.5) * 20;
-        const moveY = (e.clientY / window.innerHeight - 0.5) * 20;
-        
-        blob.style.transform = `translate(${moveX}px, ${moveY}px)`;
-        
-        // Move emoji in slightly different direction for depth effect
-        if (emoji) {
-            emoji.style.transform = `translate(${moveX * -0.2}px, ${moveY * -0.2}px) rotate(${moveX * 0.5}deg)`;
-        }
-    }
-});
-
-// Improved blob interaction - when mouse hovers on blob
-
-// Add hover effect for the emoji
-if (blob) {
-    blob.addEventListener('mouseenter', () => {
-        if (emoji) {
-            emoji.style.transform = 'scale(1.2) rotate(10deg)';
-            emoji.style.transition = 'transform 0.3s ease';
-        }
-    });
-    
-    blob.addEventListener('mouseleave', () => {
-        if (emoji) {
-            emoji.style.transform = '';
-            emoji.style.transition = 'transform 0.3s ease';
-        }
-    });
-}
-
-// Parallax effect for blob in hero section - modified without particles
-window.addEventListener('mousemove', (e) => {
-    // Only apply parallax on devices that are likely not touch devices
-    if (window.innerWidth > 768) {
-        const moveX = (e.clientX / window.innerWidth - 0.5) * 20;
-        const moveY = (e.clientY / window.innerHeight - 0.5) * 20;
-        
-        if (blob) {
-            blob.style.transform = `translate(${moveX}px, ${moveY}px)`;
-        }
-        
-        // Move emoji in slightly different direction for depth effect
-        if (emoji) {
-            emoji.style.transform = `translate(${moveX * -0.2}px, ${moveY * -0.2}px) rotate(${moveX * 0.5}deg)`;
-        }
-    }
-});
-
-// Remove particle generation functions and events
-// Delete or comment out createParticles() function
-
-// Enhanced parallax effect for blob - simplified without particles
-window.addEventListener('mousemove', (e) => {
-    if (window.innerWidth <= 768) return;
-    
-    const moveX = (e.clientX / window.innerWidth - 0.5) * 40;
-    const moveY = (e.clientY / window.innerHeight - 0.5) * 40;
-    
-    // Move blob with more pronounced effect
-    if (blob) {
-        blob.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${moveX * 0.1}deg)`;
-    }
-    
-    // Move emoji in opposite direction for depth effect
-    if (emoji) {
-        emoji.style.transform = `translate(${moveX * -0.2}px, ${moveY * -0.2}px) rotate(${moveX * -0.3}deg)`;
-    }
-    
-    // Add subtle shadow change based on movement
-    if (blob) {
-        const shadowX = moveX * 0.5;
-        const shadowY = moveY * 0.5;
-        blob.style.boxShadow = `${shadowX}px ${shadowY}px 50px rgba(255, 127, 80, 0.3)`;
-    }
-});
-
-// Modify the DOMContentLoaded event to remove createParticles call
-document.addEventListener('DOMContentLoaded', () => {
-    // Check for saved theme preference
     const isDarkMode = localStorage.getItem('darkMode') === 'true';
     if (isDarkMode) {
         document.body.classList.add('dark-mode');
@@ -515,15 +331,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Fetch repositories with a short delay to let the page render
     setTimeout(fetchGitHubRepos, 1000);
     
-    // Remove createParticles call and related window resize listener
-});
-
-// Disable custom cursor on mobile devices
-document.addEventListener('DOMContentLoaded', () => {
-    // Check if device is likely a touch device
     const isTouchDevice = () => {
         return (('ontouchstart' in window) ||
                 (navigator.maxTouchPoints > 0) ||
@@ -535,6 +344,44 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cursor) cursor.style.display = 'none';
     }
 });
+
+// Single blob parallax effect
+window.addEventListener('mousemove', (e) => {
+    if (window.innerWidth <= 768) return;
+    
+    const moveX = (e.clientX / window.innerWidth - 0.5) * 40;
+    const moveY = (e.clientY / window.innerHeight - 0.5) * 40;
+    const blob = document.querySelector('.blob');
+    const emoji = document.querySelector('.emoji');
+    
+    if (blob) {
+        blob.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${moveX * 0.1}deg)`;
+        
+        const shadowX = moveX * 0.5;
+        const shadowY = moveY * 0.5;
+        blob.style.boxShadow = `${shadowX}px ${shadowY}px 50px rgba(255, 127, 80, 0.3)`;
+    }
+    
+    if (emoji) {
+        emoji.style.transform = `translate(${moveX * -0.2}px, ${moveY * -0.2}px) rotate(${moveX * -0.3}deg)`;
+    }
+});
+
+// Add hover effects for blob
+const blob = document.querySelector('.blob');
+const emoji = document.querySelector('.emoji');
+
+if (blob && emoji) {
+    blob.addEventListener('mouseenter', () => {
+        emoji.style.transform = 'scale(1.2) rotate(10deg)';
+        emoji.style.transition = 'transform 0.3s ease';
+    });
+    
+    blob.addEventListener('mouseleave', () => {
+        emoji.style.transform = '';
+        emoji.style.transition = 'transform 0.3s ease';
+    });
+}
 
 const currentYear = new Date().getFullYear();
 document.getElementById('current-year').textContent = currentYear;
