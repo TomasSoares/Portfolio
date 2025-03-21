@@ -393,3 +393,96 @@ if (blob && emoji) {
 
 const currentYear = new Date().getFullYear();
 document.getElementById('current-year').textContent = currentYear;
+
+// Mobile menu functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const mobileMenuClose = document.querySelector('.mobile-menu-close');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    
+    // Create overlay element
+    const overlay = document.createElement('div');
+    overlay.className = 'mobile-menu-overlay';
+    document.body.appendChild(overlay);
+    
+    // Toggle mobile menu
+    mobileMenuToggle.addEventListener('click', function() {
+        mobileMenu.classList.add('active');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+    });
+    
+    // Close mobile menu
+    function closeMenu() {
+        mobileMenu.classList.remove('active');
+        overlay.classList.remove('active');
+        document.body.style.overflow = ''; // Re-enable scrolling
+    }
+    
+    mobileMenuClose.addEventListener('click', closeMenu);
+    overlay.addEventListener('click', closeMenu);
+    
+    // Close menu when a link is clicked
+    mobileNavLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            closeMenu();
+        }
+    });
+    
+    // Improve responsive behavior for skills and projects
+    const skillItems = document.querySelectorAll('.skill-item');
+    skillItems.forEach(item => {
+        item.style.opacity = '0';
+    });
+    
+    // Enhanced intersection observer for more responsive animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            
+            if (entry.target.classList.contains('skill-item')) {
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, entry.target.dataset.delay || 0);
+            }
+            
+            observer.unobserve(entry.target);
+        });
+    }, observerOptions);
+    
+    skillItems.forEach((item, index) => {
+        item.style.transitionDelay = `${index * 50}ms`;
+        item.dataset.delay = index * 50;
+        appearOnScroll.observe(item);
+    });
+    
+    // Make project cards load more responsively
+    const projectCards = document.querySelectorAll('.project-card');
+    projectCards.forEach(card => {
+        appearOnScroll.observe(card);
+    });
+    
+    // Make scroll performance better on mobile
+    let ticking = false;
+    window.addEventListener('scroll', function() {
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                updateScrollProgress();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+});

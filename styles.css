@@ -202,6 +202,100 @@ nav ul {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* Mobile menu styles */
+.mobile-menu-toggle {
+    display: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--card-bg);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: var(--transition);
+}
+
+.mobile-menu-toggle:hover {
+    color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 320px;
+    height: 100vh;
+    background-color: var(--background-color);
+    z-index: 1000;
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.dark-mode .mobile-menu {
+    background-color: var(--card-bg);
+}
+
+.mobile-menu.active {
+    right: 0;
+}
+
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .mobile-menu-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu-close {
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.mobile-menu-close:hover {
+    color: var(--primary-color);
+}
+
+.mobile-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-menu ul li {
+    margin-bottom: 1.5rem;
+}
+
+.mobile-nav-link {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: var(--transition);
+    display: block;
+    padding: 0.5rem 0;
+}
+
+.mobile-nav-link:hover {
+    color: var(--primary-color);
+    transform: translateX(5px);
+}
+
 /* Responsive adjustments for navbar */
 @media (max-width: 768px) {
     header {
@@ -219,6 +313,55 @@ nav ul {
     .logo {
         font-size: 1.6rem;
     }
+
+    .mobile-menu-toggle {
+        display: flex;
+    }
+    
+    nav {
+        display: none;
+    }
+    
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 100px;
+        padding-bottom: 60px;
+    }
+    
+    .hero-content {
+        margin-bottom: 3rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-buttons {
+        justify-content: center;
+    }
+    
+    .hero-image {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        margin: 0 auto;
+    }
+    
+    .blob {
+        position: relative;
+        margin: 0 auto;
+    }
+    
+    /* Make skills items more compact on mobile */
+    .skills-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 10px;
+    }
+    
+    .skill-item {
+        min-height: 60px;
+        padding: 0.8rem 1rem;
+    }
 }
 
 @media (max-width: 576px) {
@@ -234,9 +377,67 @@ nav ul {
         font-size: 0.9rem;
         padding: 0.4rem;
     }
+
+    .hero h1 {
+        font-size: 2.3rem;
+    }
+    
+    .typing-text {
+        font-size: 1.2rem;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+    
+    .cta-buttons {
+        width: 100%;
+    }
+    
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    /* Fix very small screens spacing */
+    section {
+        padding: 60px 5%;
+    }
+    
+    /* Make project cards take full width on mobile */
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .project-card {
+        max-width: 100%;
+        margin: 0;
+    }
+    
+    /* Adjust contact cards for better mobile display */
+    .contact-cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-card {
+        padding: 1.5rem;
+    }
+    
+    .location-info {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+    
+    .location-map {
+        margin-bottom: 1rem;
+    }
 }
 
-/* Fix for very small devices */
 @media (max-width: 360px) {
     .logo {
         font-size: 1.4rem;
@@ -256,6 +457,53 @@ nav ul {
         height: 32px;
         font-size: 1rem;
     }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .typing-text {
+        font-size: 1rem;
+    }
+    
+    .blob {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .emoji-img {
+        width: 4rem;
+        height: 4rem;
+    }
+    
+    .skill-item {
+        min-width: 100%;
+    }
+    
+    /* Ensure buttons don't overflow */
+    .btn {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Overlay for mobile menu */
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
 }
 
 /* Hero Section */
@@ -756,8 +1004,8 @@ section {
     opacity: 0;
     animation: skillAppear 0.6s forwards;
     /* Make item size adapt to content instead of fixed width */
-    width: auto;
-    min-width: 140px;
+    width: 100%; /* Use full width of grid cell */
+    min-width: auto; /* Remove fixed min-width that causes overflow */
 }
 
 .skill-item::before {
@@ -784,8 +1032,8 @@ section {
 }
 
 .skill-logo {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -826,25 +1074,25 @@ section {
     color: var (--text-color);
     transition: all 0.3s ease;
     /* Fix overflow issues with long text */
-    white-space: normal;
+    white-space: normal; /* Allow text to wrap */
     word-break: break-word;
     hyphens: auto;
     line-height: 1.2;
-    /* If text is super long, constrain it */
-    max-width: 120px;
+    /* Let text take available space */
+    width: 100%;
     display: block;
 }
 
-/* JavaScript-specific styling to fix overflow */
+/* Remove specific JavaScript styling that's causing issues */
 .skill-item:nth-child(8) {
-    min-width: 150px; /* Wider container for JavaScript */
-    padding-right: 1.5rem; /* More padding on the right */
+    min-width: auto;
+    padding: 1rem 1.2rem;
 }
 
 .skill-item:nth-child(8) .skill-name {
-    font-size: 0.8rem; /* Smaller font for JavaScript */
-    letter-spacing: -0.5px; /* Tighter letter spacing */
-    max-width: 90px; /* Allow more room for text */
+    font-size: 1rem;
+    letter-spacing: normal;
+    max-width: none;
 }
 
 .skill-item:hover .skill-name {
@@ -935,19 +1183,19 @@ section {
     }
     
     .skill-item {
-        padding: 0.6rem 0.8rem;
+        padding: 0.7rem 0.9rem;
+        min-height: 55px;
     }
     
     .skill-logo {
-        width: 30px;
-        height: 30px;
-        font-size: 1.3rem;
-        margin-right: 0.6rem;
+        width: 32px;
+        height: 32px;
+        font-size: 1.4rem;
+        margin-right: 0.7rem;
     }
     
     .skill-name {
         font-size: 0.85rem;
-        max-width: 100px;
     }
     
     .custom-icon {
@@ -963,6 +1211,28 @@ section {
     .skill-item:nth-child(8) .skill-name {
         font-size: 0.75rem;
         max-width: 80px;
+    }
+}
+
+@media (max-width: 360px) {
+    .skills-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    
+    .skill-item {
+        padding: 0.6rem 0.8rem;
+        min-height: 50px;
+    }
+    
+    .skill-logo {
+        width: 28px;
+        height: 28px;
+        font-size: 1.2rem;
+        margin-right: 0.7rem;
+    }
+    
+    .skill-name {
+        font-size: 0.85rem;
     }
 }
 
@@ -1278,7 +1548,7 @@ section {
     align-items: center;
     font-size: 1.2rem;
     font-weight: 600;
-    color: var(--text-color);
+    color: var (--text-color);
 }
 
 .github-profile i {
