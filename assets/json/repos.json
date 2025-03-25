@@ -3,7 +3,7 @@
     {
       "name": "Portfolio",
       "description": "My personal portfolio website showcasing my projects and skills",
-      "html_url": "https://github.com/TomasSoares/portfolio",
+      "html_url": "https://github.com/TomasSoares/Portfolio",
       "homepage": "https://tsoares.vercel.app/",
       "languages": {
         "HTML": 60,
@@ -13,7 +13,7 @@
     },
     {
       "name": "Notly",
-      "description": "A note taking webapp. (Write. Save. Remeber.)",
+      "description": "A note taking web-app. (Write. Save. Remeber.)",
       "html_url": "https://github.com/TomasSoares/Notly",
       "homepage": "https://notly-steel.vercel.app/",
       "languages": {
