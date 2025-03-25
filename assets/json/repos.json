@@ -1,6 +1,18 @@
 {
   "repos": [
     {
+      "name": "Notly App",
+      "description": "A note taking desktop app. (Write. Save. Remeber.) ",
+      "html_url": "https://github.com/TomasSoares/notly-app",
+      "homepage": "",
+      "languages": {
+        "ElectronJS": 20,
+        "HTML": 20,
+        "CSS": 20,
+        "JavaScript": 20
+      }
+    },
+    {
       "name": "Portfolio",
       "description": "My personal portfolio website showcasing my projects and skills",
       "html_url": "https://github.com/TomasSoares/Portfolio",

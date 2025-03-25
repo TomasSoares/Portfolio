@@ -192,6 +192,7 @@ const getLanguageIcon = (language) => {
         'Vue': '<i class="fab fa-vuejs"></i>',
         'React': '<i class="fab fa-react"></i>',
         'Angular': '<i class="fab fa-angular"></i>',
+        'Electron': '<i class="fab fa-electron"></i>',
         'Laravel': '<i class="fab fa-laravel"></i>',
         'Batch': '<span class="language-icon">B</span>'
     };
@@ -223,6 +224,7 @@ const getLanguageColor = (language) => {
         'Vue': '#41B883',
         'React': '#61DAFB',
         'Angular': '#DD0031',
+        'Electron': '#47848F',  
         'Laravel': '#FF2D20',
         'Batch': '#4D4D4D'
     };
