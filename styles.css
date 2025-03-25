@@ -360,7 +360,6 @@ nav ul {
     
     .skill-item {
         min-height: 60px;
-        padding: 0.8rem 1rem;
     }
 }
 
@@ -947,6 +946,7 @@ section {
     gap: 1.5rem;
     position: relative;
     z-index: 1;
+    padding: 0 1.5rem;
 }
 
 /* Improve skill items in dark mode */
