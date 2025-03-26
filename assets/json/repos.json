@@ -2,7 +2,7 @@
   "repos": [
     {
       "name": "Notly App",
-      "description": "A note taking desktop app. (Write. Save. Remeber.) ",
+      "description": "A note taking desktop app. (Write. Save. Remember.) ",
       "html_url": "https://github.com/TomasSoares/notly-app",
       "homepage": "",
       "languages": {
@@ -25,7 +25,7 @@
     },
     {
       "name": "Notly",
-      "description": "A note taking web-app. (Write. Save. Remeber.)",
+      "description": "A note taking web-app. (Write. Save. Remember.)",
       "html_url": "https://github.com/TomasSoares/Notly",
       "homepage": "https://notly-steel.vercel.app/",
       "languages": {
