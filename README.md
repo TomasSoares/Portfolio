@@ -68,10 +68,6 @@ portfolio/
 
 Feel free to fork this project and customize it for your own use. If you find any bugs or have suggestions for improvements, please open an issue or submit a pull request.
 
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
 ## Contact
 
 - GitHub: [@TomasSoares](https://github.com/TomasSoares)
