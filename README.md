@@ -64,10 +64,6 @@ portfolio/
 3. **Styling**
    - Customize colors and themes in `styles.css`
 
-## Contributing
-
-Feel free to fork this project and customize it for your own use. If you find any bugs or have suggestions for improvements, please open an issue or submit a pull request.
-
 ## Contact
 
 - GitHub: [@TomasSoares](https://github.com/TomasSoares)
